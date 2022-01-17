@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Presence</string>
     <string name="accepter">Accepter</string>
-    <string name="conditions_g_n_rales">Conditions générales</string>
-    <string name="num_ros_etudiant">Numéros Etudiant</string>
+    <string name="numros_etudiant">Numéros Etudiant</string>
     <string name="hint">hint</string>
+    <string name="conditions_g_n_rales">Conditions générales</string>
 </resources>
