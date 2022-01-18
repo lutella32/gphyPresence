@@ -9,4 +9,5 @@
     <string name="derni_res_connexions">Dernières Connexions</string>
     <string name="numeros">numeros</string>
     <string name="en_acceptant_l_utilisations_des_conditions_g_n_rales_vous_acceptez_l_utilisation_du_bluethoot_de_votre_num_ros_tudiant_des_fins_de_suivi_d_alternance_si_vous_refusez_il_vous_sera_demander_de_signer_sur_version_papier_au_bureau_de_monsieur_genier">En acceptant l\'utilisations des conditions générales, vous acceptez l\'utilisation du bluethoot, de votre numéros étudiant à des fins de suivi d\'alternance. Si vous refusez, il vous sera demander de signer sur version papier au Bureau de Monsieur Genier.</string>
+    <string name="connect">Connecté</string>
 </resources>
