@@ -39,20 +39,20 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             String androidID = System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-            //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
-            //manager.getAdapter().getAddress();
+           //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+           // manager.getAdapter().getAddress();
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            Log.d("bluetooth adaptateur",adapter.getName());
+            Log.d("bluetooth adaptateur",adapter.getAddress());
 
             String id = android.provider.Settings.System.getString(super.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
             Log.d("UDID-------------------------",id);
             Log.d("startdeux", androidID);
-            // Log.d("startTrois", manager.getAdapter().getAddress());
+           //  Log.d("startTrois", manager.getAdapter().getAddress());
             //Log.d("startquatre", manager.getAdapter().getName());
             // personne = new Personne();
             //personne.setIdEtudiant(4567899);
 
-            personne.setIdBluetooth(12346);
+           // personne.setIdBluetooth(12346);
             Date today = new Date();
             Log.d("date", String.valueOf(today));
             String date = String.valueOf(today);
