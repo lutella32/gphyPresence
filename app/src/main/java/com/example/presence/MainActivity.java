@@ -17,6 +17,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.provider.Settings;
 import android.provider.Settings.System;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Date;
 
@@ -25,24 +29,33 @@ public class MainActivity extends AppCompatActivity {
     Personne personne;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        String androidID = System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-      //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
-        //manager.getAdapter().getAddress();
-
-        Log.d("startdeux", androidID);
-       // Log.d("startTrois", manager.getAdapter().getAddress());
-        //Log.d("startquatre", manager.getAdapter().getName());
        personne = new Personne();
-       personne.setIdEtudiant(4567899);
 
-       personne.setIdBluetooth(12346);
-        personne.print();
-        Date today = new Date();
-        Log.d("date", String.valueOf(today));
-        String date = String.valueOf(today);
-        personne.getConnexion().add(date);
+        if(personne.getIdEtudiant()!=0){
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_etudiant_control);
+        }
+        else {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            String androidID = System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+            //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            //manager.getAdapter().getAddress();
+
+            Log.d("startdeux", androidID);
+            // Log.d("startTrois", manager.getAdapter().getAddress());
+            //Log.d("startquatre", manager.getAdapter().getName());
+            // personne = new Personne();
+            //personne.setIdEtudiant(4567899);
+
+            personne.setIdBluetooth(12346);
+            Date today = new Date();
+            Log.d("date", String.valueOf(today));
+            String date = String.valueOf(today);
+            personne.getConnexion().add(date);
+            personne.print();
+
+        }
 
 
     }
@@ -53,11 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("start","you are in start");
 
+        EditText number = (EditText) findViewById(R.id.editTextNumber);
 
+        Context context = getApplicationContext();
+        CharSequence textToast = "You need to enter a student id";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, textToast, duration);
+        if (!number.getText().toString().equals("")) {
+            Integer n = Integer.parseInt(number.getText().toString());
+            personne.setIdEtudiant(n);
+            Intent lecture = new Intent(this, etudiantControl.class);
+            lecture.putExtra("FromNumToStarting", this.personne);
+            startActivity(lecture);
 
-        Intent lecture = new Intent(this, etudiantControl.class);
-        lecture.putExtra("FromNumToStarting", this.personne);
-        startActivity(lecture);
+        } else {
+            toast.show();
+        }
+
     }
 
 }

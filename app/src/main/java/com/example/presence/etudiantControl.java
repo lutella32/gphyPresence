@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 public class etudiantControl extends AppCompatActivity {
 
@@ -17,8 +21,16 @@ public class etudiantControl extends AppCompatActivity {
         personne = new Personne();
         personne.print();
         processIntentData();
+
         setContentView(R.layout.activity_etudiant_control);
-    } public void finishing(View view) {
+        if(personne.getConnexion().get(0)!=""){
+            Switch switch1 = (Switch) findViewById(R.id.switch1);
+            switch1.setChecked(true);
+            TextView text1 = (TextView) findViewById(R.id.textView11);
+            text1.setText(personne.getConnexion().get(0));
+        }
+    }
+    public void finishing(View view) {
 
         finishAffinity();
         System.exit(0);
