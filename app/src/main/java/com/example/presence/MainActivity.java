@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
             String androidID = System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
             //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             //manager.getAdapter().getAddress();
+            BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+            Log.d("test",adapter.getName());
+
 
             Log.d("startdeux", androidID);
             // Log.d("startTrois", manager.getAdapter().getAddress());
