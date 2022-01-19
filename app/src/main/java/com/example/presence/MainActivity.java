@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             // personne = new Personne();
             //personne.setIdEtudiant(4567899);
 
-           // personne.setIdBluetooth(12346);
+            personne.setIdBluetooth(12346);
             Date today = new Date();
             Log.d("date", String.valueOf(today));
             String date = String.valueOf(today);
