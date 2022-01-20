@@ -1,6 +1,8 @@
 package com.example.presence;
 
 import androidx.appcompat.app.AppCompatActivity;
+import java.io.File;
+import java.io.IOException;
 
 
 import android.Manifest;
@@ -17,6 +19,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.provider.Settings;
 import android.provider.Settings.System;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void start(android.view.View v) {
+    public void start(View v) {
 
 
         Log.d("start","you are in start");
@@ -82,6 +85,24 @@ public class MainActivity extends AppCompatActivity {
             Intent lecture = new Intent(this, etudiantControl.class);
             lecture.putExtra("FromNumToStarting", this.personne);
             startActivity(lecture);
+
+            // Creation du fichier certificat aliant num etu et id unique tel.
+
+            try {
+                File ObjCertif = new File("gphyPresence/app/build/generated/" +
+                        "ap_generated_sources/debug/outapp/build/generated/source/buildConfig/" +
+                        "debugdebugEtuCertificat.txt");
+                if (ObjCertif.createNewFile()) {
+                    Log.d("File created: " , ObjCertif.getName());
+                } else {
+                    Log.d("le fichier existe deja","File already exists.");
+                }
+            } catch (IOException e) {
+                Log.d("Un probleme est survenu","An error occurred.");
+                e.printStackTrace();
+            }
+
+
 
         } else {
             toast.show();
