@@ -13,11 +13,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.widget.Toast;
 import android.bluetooth.BluetoothDevice;
 import java.util.Set;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 
 
+
+import java.io.File;
+import java.io.FileWriter;
 
 public class etudiantControl extends AppCompatActivity {
     // seconde page, où on voit ses connexions
@@ -115,6 +119,7 @@ public class etudiantControl extends AppCompatActivity {
             TextView text1 = (TextView) findViewById(R.id.textView11);
             text1.setText(personne.getConnexion().get(0));
         }
+        saveInformation(personne);
     }
 
     @Override
@@ -154,6 +159,31 @@ public class etudiantControl extends AppCompatActivity {
         else{
             Log.d("3", "Error when transferrinf from main");
         }
+    }
+    // script pour sauver information personne
+    //TODO rajouter condition "première connexion etudiant on sauvegarde
+
+    public void saveInformation(Personne p){
+
+        File file = new File(etudiantControl.this.getFilesDir(), "text");
+
+        try {
+            File gpxfile = new File(file, "sample");
+            Log.d("gpxfile", gpxfile.getAbsolutePath());
+            FileWriter writer = new FileWriter(gpxfile);
+            String b= String.valueOf(p.getIdBluetooth());
+            String Id = String.valueOf(p.getIdEtudiant());
+            writer.append(b);
+
+            writer.append(Id);
+
+            writer.flush();
+            writer.close();
+
+            Toast.makeText(etudiantControl.this, "Saved your text", Toast.LENGTH_LONG).show();
+        } catch (Exception e) { }
+
+
     }
 
 

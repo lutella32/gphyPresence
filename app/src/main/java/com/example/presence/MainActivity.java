@@ -1,7 +1,15 @@
 package com.example.presence;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -15,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.provider.Settings;
@@ -25,7 +34,14 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
+import java.io.FileWriter;
+import java.util.Scanner;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,25 +49,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // instancier new Personne
-       personne = new Personne();
-       // on met des données au pif dans personne, et la date du jour en String / test get et set
-        personne.setIdBluetooth(12346);
+        personne = new Personne();
+        // on ouvre fichier
+        File file = new File(MainActivity.this.getFilesDir(), "text");
+        if (!file.exists()) {
+            // si fichier existe pas on prend info au pif
+            personne.setIdBluetooth(12346);
+            saveInformation(personne,file);
+
+        }
+        else{
+            // sinon on charge info
+            personne = getInformation(personne);
+
+        }
+        // on met des données au pif dans personne, et la date du jour en String / test get et set
+
         Date today = new Date();
         Log.d("date", String.valueOf(today));
         String date = String.valueOf(today);
         personne.getConnexion().add(date);
 
         // on affiche personne
+        Log.d("test context","test");
         personne.print();
         // à faire
-       // code a rajouter pour le fichier, si il existe un fichier on récupère les données et si non, on crée fichier
+
 
         // si la personne c'est déjà enregistrer et on va sur la page etudiantControl
-        if(personne.getIdEtudiant()!=0){
+        if (personne.getIdEtudiant() != 0) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_etudiant_control);
-        }
-        else {
+        } else {
             // sinon on reste sur la page main
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
@@ -59,11 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
     }
 
 
-    public void start(android.view.View v) {
+        public void start(android.view.View v) {
         // si on clique sur accepter dans le main
 
         Log.d("start","you are in start");
@@ -88,21 +116,7 @@ public class MainActivity extends AppCompatActivity {
             lecture.putExtra("FromNumToStarting", this.personne);
             startActivity(lecture);
 
-            // Creation du fichier certificat aliant num etu et id unique tel.
 
-            try {
-                File ObjCertif = new File("gphyPresence/app/build/generated/" +
-                        "ap_generated_sources/debug/outapp/build/generated/source/buildConfig/" +
-                        "debugdebugEtuCertificat.txt");
-                if (ObjCertif.createNewFile()) {
-                    Log.d("File created: " , ObjCertif.getName());
-                } else {
-                    Log.d("le fichier existe deja","File already exists.");
-                }
-            } catch (IOException e) {
-                Log.d("Un probleme est survenu","An error occurred.");
-                e.printStackTrace();
-            }
 
 
 
@@ -122,5 +136,46 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public void saveInformation(Personne p,File file){
 
+
+
+        // si le dossier existe pas on le créer
+        file.mkdir();
+        try {
+            // on créer fichier
+            File gpxfile = new File(file, "sample");
+            Log.d("gpxfile", gpxfile.getAbsolutePath());
+
+            Log.d("fichier","créer");
+            Toast.makeText(MainActivity.this, "Saved your text", Toast.LENGTH_LONG).show();
+        } catch (Exception e) { }
+
+
+    }
+    // on récupère info du fichier
+    public Personne getInformation(Personne p){
+        // on récup le fichier avec l'emplacement
+        File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
+        StringBuilder text = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileEvents));
+            String line;
+            // on lit chaque ligne pour récup info
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                Log.d("ligne",line);
+                //TODO faire regex pour séparer idetudiant et idbluetooth et stocké dans Personne
+               // p.setIdBluetooth(Integer.parseInt(line));
+                text.append('\n');
+            }
+            br.close();
+        } catch (IOException e) { }
+        String result = text.toString();
+
+       // p.setIdEtudiant(Integer.parseInt(result));
+        personne.print();
+        Log.d("resultat!!!!!!!!",result);
+        return p;
+    }
 }
