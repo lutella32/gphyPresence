@@ -3,17 +3,30 @@ package com.example.presence;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.bluetooth.BluetoothAdapter;
+import android.widget.Toast;
+import android.bluetooth.BluetoothDevice;
+import java.util.Set;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+
+
 
 public class etudiantControl extends AppCompatActivity {
     // seconde page, où on voit ses connexions
     Personne personne;
+    private Set<BluetoothDevice> devices;
+    private BluetoothAdapter adaptateurBluetooth;
+    //private ReceiverBluetooth receiverBluetooth = new ReceiverBluetooth();
+    private IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+    //private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // on charge page et personne transmis par processIntentData
@@ -28,6 +41,72 @@ public class etudiantControl extends AppCompatActivity {
         // - envoyer les données bluetooth
         // - ajouter la date du jour et de l'heure dans liste avec addConnexion quand connexion bluetooth établit
         // - mettre bouton check en vert si date du jour et heure ajoutées
+
+        //Vérification connexion du bluetooth
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null)
+        {
+            Log.d("bluetoothTest:","bluetoothAdapter null");
+            Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if (!bluetoothAdapter.isEnabled())
+            {
+                Log.d("bluetoothTest:","bluetoothAdapter not enable");
+                Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+                // Possibilité 1 :
+                //Intent activeBlueTooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                //startActivityForResult(activeBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
+                // ou Possibilité 2:
+                bluetoothAdapter.enable();
+            }
+            else
+            {
+                Log.d("bluetoothTest:","bluetoothAdapter déjà enable");
+                Toast.makeText(getApplicationContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //Liste des périphériques
+        devices = bluetoothAdapter.getBondedDevices();
+        for (BluetoothDevice blueDevice : devices)
+        {
+            Log.d("bluetoothList:",blueDevice.getName());
+            Toast.makeText(getApplicationContext(), "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
+        }
+
+        // Filtre sur BroadcastReceiver
+        //registerReceiver(receiverBluetooth, filter);
+
+        //Recherche de nouveaux périphériques
+        adaptateurBluetooth = BluetoothAdapter.getDefaultAdapter();
+        adaptateurBluetooth.startDiscovery();
+
+        //Rachel
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice("E4:70:B8:09:DF:ED");
+        //Coline
+        //BluetoothDevice device = bluetoothAdapter.getRemoteDevice("E4:42:A6:4C:CA:29");
+        //Lucie
+        //BluetoothDevice device = bluetoothAdapter.getRemoteDevice("E4:42:A6:4C:CA:29");
+        //Lucie téléphone
+        //BluetoothDevice device = bluetoothAdapter.getRemoteDevice("0c:60:46:44:41:fc");
+        //Moi
+        //BluetoothDevice device = bluetoothAdapter.getRemoteDevice("E0:F8:47:12:A8:5F");
+
+
+        Log.d("BluetoothConnect", device.getAddress());
+        Log.d("BluetoothConnect", device.getName());
+        Connexion connexion = new Connexion(device);
+
+        // Rends le périphérique visible
+//        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+//        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+//        Log.d("Test", "pb");
+//        startActivity(discoverableIntent);
+
+        //Peripherique.connecter();
+
         if(personne.getConnexion().get(0)!=""){
             // test du bouton switch
             Switch switch1 = (Switch) findViewById(R.id.switch1);
@@ -37,6 +116,18 @@ public class etudiantControl extends AppCompatActivity {
             text1.setText(personne.getConnexion().get(0));
         }
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (adaptateurBluetooth != null)
+        {
+            adaptateurBluetooth.cancelDiscovery();
+            //unregisterReceiver(receiverBluetooth);
+        }
+    }
+
 
     //bouton exit
     public void finishing(View view) {
