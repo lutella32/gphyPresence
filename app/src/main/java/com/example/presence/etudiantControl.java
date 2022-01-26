@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.util.Set;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.io.File;
 import java.io.FileWriter;
 
@@ -53,7 +51,7 @@ public class etudiantControl extends AppCompatActivity {
             TextView text1 = (TextView) findViewById(R.id.textView11);
             text1.setText(personne.getConnexion().get(0));
         }
-        saveInformation(personne);
+        saveInformationFile(personne);
     }
 
     //bouton "valider ma présence" : lancement de la connexion bluetooth
@@ -92,7 +90,7 @@ public class etudiantControl extends AppCompatActivity {
 
         //Connexion à l'appareil
         int numEtu = personne.getIdEtudiant();
-        int numID = personne.getIdBluetooth();
+        int numID = personne.getIdTel();
         Connexion connexion = new Connexion(device, numEtu, numID);
         Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
     }
@@ -126,25 +124,31 @@ public class etudiantControl extends AppCompatActivity {
     // script pour sauver information personne
     //TODO rajouter condition "première connexion etudiant on sauvegarde
 
-    public void saveInformation(Personne p){
+    public void saveInformationFile(Personne p){
 
-        File file = new File(etudiantControl.this.getFilesDir(), "text");
+        File file = new File(etudiantControl.this.getFilesDir(), "text4");
 
         try {
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
             FileWriter writer = new FileWriter(gpxfile);
-            String b= String.valueOf(p.getIdBluetooth());
+            String b= String.valueOf(p.getIdTel());
             String Id = String.valueOf(p.getIdEtudiant());
             writer.append(b);
-
+            writer.append(",");
             writer.append(Id);
 
             writer.flush();
             writer.close();
-
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("information sauvegardées","ok");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
             Toast.makeText(etudiantControl.this, "Saved your text", Toast.LENGTH_LONG).show();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("problème de sauvegarde","data");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+        }
 
 
     }

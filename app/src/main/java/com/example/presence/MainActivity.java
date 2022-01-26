@@ -3,44 +3,20 @@ package com.example.presence;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.provider.Settings;
-import android.provider.Settings.System;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.Date;
-import java.io.FileWriter;
-import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
         // instancier new Personne
         personne = new Personne();
         // on ouvre fichier
-        File file = new File(MainActivity.this.getFilesDir(), "text");
+        File file = new File(MainActivity.this.getFilesDir(), "text4");
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
-            personne.setIdBluetooth(12346);
-            saveInformation(personne,file);
+            personne.setIdTel(12346);
+            createFile(personne,file);
 
         }
         else{
@@ -136,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void saveInformation(Personne p,File file){
+    public void createFile(Personne p, File file){
 
 
 
@@ -146,8 +122,9 @@ public class MainActivity extends AppCompatActivity {
             // on créer fichier
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
-
+            Log.d("--*---------*-------*-----","----*------------*----------*");
             Log.d("fichier","créer");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
             Toast.makeText(MainActivity.this, "Saved your text", Toast.LENGTH_LONG).show();
         } catch (Exception e) { }
 
@@ -156,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
     // on récupère info du fichier
     public Personne getInformation(Personne p){
         // on récup le fichier avec l'emplacement
-        File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
+        File fileEvents = new File(MainActivity.this.getFilesDir()+"/text4/sample");
+        Log.d("gpxfile", fileEvents.getAbsolutePath());
         StringBuilder text = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileEvents));
@@ -164,13 +142,19 @@ public class MainActivity extends AppCompatActivity {
             // on lit chaque ligne pour récup info
             while ((line = br.readLine()) != null) {
                 text.append(line);
+                Log.d("--*---------*-------*-----","----*------------*----------*");
                 Log.d("ligne",line);
+                Log.d("--*---------*-------*-----","----*------------*----------*");
                 //TODO faire regex pour séparer idetudiant et idbluetooth et stocké dans Personne
                // p.setIdBluetooth(Integer.parseInt(line));
                 text.append('\n');
             }
             br.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("problème de récupération de données","erreur");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+        }
         String result = text.toString();
 
        // p.setIdEtudiant(Integer.parseInt(result));
