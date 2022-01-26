@@ -17,7 +17,7 @@ public class Personne implements Parcelable {
         connexion = new ArrayList<String>();
 
     }
-    // code générre automatiquement par android studio
+    // code généré automatiquement par android studio
     protected Personne(Parcel in) {
         idEtudiant = in.readInt();
         idBluetooth = in.readInt();

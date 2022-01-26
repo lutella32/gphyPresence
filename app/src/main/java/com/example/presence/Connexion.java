@@ -1,47 +1,41 @@
 package com.example.presence;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.os.ParcelUuid;
 import android.util.Log;
+import android.view.ViewDebug;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
 
 public class Connexion extends Thread{
     private final BluetoothSocket mmSocket;
     private final BluetoothDevice mmDevice;
     private String TAG = "Connexion";
-    private String MY_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 
-    private Handler handler; // handler that gets info from Bluetooth service
+//    private Handler handler; // handler that gets info from Bluetooth service
+//
+//    // Defines several constants used when transmitting messages between the
+//    // service and the UI.
+//    private interface MessageConstants {
+//        public static final int MESSAGE_READ = 0;
+//        public static final int MESSAGE_WRITE = 1;
+//        public static final int MESSAGE_TOAST = 2;
+//
+//        // ... (Add other message types here as needed.)
+//    }
 
-    // Defines several constants used when transmitting messages between the
-    // service and the UI.
-    private interface MessageConstants {
-        public static final int MESSAGE_READ = 0;
-        public static final int MESSAGE_WRITE = 1;
-        public static final int MESSAGE_TOAST = 2;
-
-        // ... (Add other message types here as needed.)
-    }
-
-    public Connexion(BluetoothDevice device) {
+    public Connexion(BluetoothDevice device, int numEtu, int numID) {
         // Use a temporary object that is later assigned to mmSocket
         // because mmSocket is final.
         BluetoothSocket tmp = null;
 
         mmDevice = device;
         try {
-            tmp = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class } ).invoke(device, 5);
+            tmp = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class } ).invoke(device, 1);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -51,10 +45,10 @@ public class Connexion extends Thread{
         }
         mmSocket = tmp;
         Log.d(TAG,"création socket OK");
-        run();
+        run(numEtu, numID);
     }
 
-    public void run() {
+    public void run(int numEtu, int numID) {
 
         try {
             // Connect to the remote device through the socket. This call blocks
@@ -63,7 +57,7 @@ public class Connexion extends Thread{
             Log.d(TAG,"connecté");
         } catch (IOException connectException) {
             // Unable to connect; close the socket and return.
-            Log.e(TAG,  "connection failed", connectException);
+            Log.e(TAG,  "échec de connexion", connectException);
             try {
                 mmSocket.close();
                 Log.d(TAG,"socket fermée");
@@ -79,10 +73,12 @@ public class Connexion extends Thread{
         Log.d(TAG,"envoi message");
         ConnectedThread connexionEnvoi = new ConnectedThread(mmSocket);
 
-        String inputString = "Hello Rachel!";
+        String inputString = Integer.toString(numEtu)+";"+Integer.toString(numID);
+        Log.d("Message", inputString);
         byte[] byteArray = inputString.getBytes();
 
         connexionEnvoi.write(byteArray);
+        //connexionEnvoi.run();
         connexionEnvoi.cancel();
     }
 
@@ -125,11 +121,12 @@ public class Connexion extends Thread{
                 try {
                     // Read from the InputStream.
                     numBytes = mmInStream.read(mmBuffer);
+                    Log.d("Message retour", String.valueOf(numBytes));
                     // Send the obtained bytes to the UI activity.
-                    Message readMsg = handler.obtainMessage(
-                            MessageConstants.MESSAGE_READ, numBytes, -1,
-                            mmBuffer);
-                    readMsg.sendToTarget();
+//                    Message readMsg = handler.obtainMessage(
+//                            MessageConstants.MESSAGE_READ, numBytes, -1,
+//                            mmBuffer);
+//                    readMsg.sendToTarget();
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
                     break;
@@ -152,7 +149,7 @@ public class Connexion extends Thread{
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
 
-                // Send a failure message back to the activity.
+                //Send a failure message back to the activity.
 //                Message writeErrorMsg =
 //                        handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
 //                Bundle bundle = new Bundle();
