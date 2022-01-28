@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         // instancier new Personne
         personne = new Personne();
         // on ouvre fichier
-        File file = new File(MainActivity.this.getFilesDir(), "text4");
+        File file = new File(MainActivity.this.getFilesDir(), "text");
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
             personne.setIdTel(12346);
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     // on récupère info du fichier
     public Personne getInformation(Personne p){
         // on récup le fichier avec l'emplacement
-        File fileEvents = new File(MainActivity.this.getFilesDir()+"/text4/sample");
+        File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
         Log.d("gpxfile", fileEvents.getAbsolutePath());
         StringBuilder text = new StringBuilder();
         try {
@@ -145,9 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("--*---------*-------*-----","----*------------*----------*");
                 Log.d("ligne",line);
                 Log.d("--*---------*-------*-----","----*------------*----------*");
-                //TODO faire regex pour séparer idetudiant et idbluetooth et stocké dans Personne
-               // p.setIdBluetooth(Integer.parseInt(line));
-                text.append('\n');
+                //text.append('\n');
             }
             br.close();
         } catch (IOException e) {
@@ -159,7 +158,32 @@ public class MainActivity extends AppCompatActivity {
 
        // p.setIdEtudiant(Integer.parseInt(result));
         personne.print();
-        Log.d("resultat!!!!!!!!",result);
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+        Log.d("Ce qu'il y a dans Sample.txt:",result);
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+        String[] ListDesId = result.split(",", 2);
+
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+        for (String a : ListDesId) {
+            Log.d("Liste de IdTel et idEtu extrait du sample avec split:", a); }
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+        Log.d("Liste0",ListDesId[0]);
+        Log.d("Liste1",ListDesId[1]);
+
+        try {
+            //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
+            p.setIdTel(Integer.valueOf(ListDesId[0]));
+            p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("Id tel de personne", String.valueOf(p.getIdTel()));
+            Log.d("Id etu de personne", String.valueOf(p.getIdEtudiant()));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }catch (Exception e){
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("ERREUR","Bien essayé boloss");
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }
+
         return p;
     }
 }

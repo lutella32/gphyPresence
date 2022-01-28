@@ -118,7 +118,7 @@ public class etudiantControl extends AppCompatActivity {
             }
         }
         else{
-            Log.d("3", "Error when transferrinf from main");
+            Log.d("3", "Error when transferring from main");
         }
     }
     // script pour sauver information personne
@@ -126,7 +126,7 @@ public class etudiantControl extends AppCompatActivity {
 
     public void saveInformationFile(Personne p){
 
-        File file = new File(etudiantControl.this.getFilesDir(), "text4");
+        File file = new File(etudiantControl.this.getFilesDir(), "text");
 
         try {
             File gpxfile = new File(file, "sample");
