@@ -30,7 +30,10 @@ public class etudiantControl extends AppCompatActivity {
     //Rachel
     //private String adresseMAC = "E4:70:B8:09:DF:ED";
     //Moi
-    private String adresseMAC = "E0:F8:47:12:A8:5F";
+    //private String adresseMAC = "E0:F8:47:12:A8:5F";
+    //Rachel
+    private String adresseMAC = "E4:5E:37:3A:C3:B0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,7 @@ public class etudiantControl extends AppCompatActivity {
         int numEtu = personne.getIdEtudiant();
         int numID = personne.getIdBluetooth();
         Connexion connexion = new Connexion(device, numEtu, numID);
+        personne.print();
         Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
     }
 
