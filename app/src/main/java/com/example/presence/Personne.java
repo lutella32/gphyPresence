@@ -8,11 +8,11 @@ import java.util.ArrayList;
 public class Personne implements Parcelable {
     // Personne possède un idEtudiant, un idBluetooth et une liste de connexion en String
     private int idEtudiant;
-    private int idTel;
+    private String idTel;
     private ArrayList<String> connexion;
     // les valeurs à la création de personne sont 0,0," "
     public Personne(){
-        idTel =0;
+        idTel ="0";
         idEtudiant=0;
         connexion = new ArrayList<String>();
 
@@ -20,7 +20,7 @@ public class Personne implements Parcelable {
     // code généré automatiquement par android studio
     protected Personne(Parcel in) {
         idEtudiant = in.readInt();
-        idTel = in.readInt();
+        idTel = String.valueOf(in.readInt());
         connexion = in.createStringArrayList();
     }
     // surchage de la méthode toStrong avec les getter
@@ -45,8 +45,8 @@ public class Personne implements Parcelable {
 
 
     //Getter / Setter IdBluetooth
-    public int getIdTel() { return idTel; }
-    public void setIdTel(int id) { this.idTel = id; }
+    public String getIdTel() { return idTel; }
+    public void setIdTel(String id) { this.idTel = id; }
 
     //Getter / Setter
     public ArrayList<String> getConnexion() {
@@ -77,7 +77,8 @@ public class Personne implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idEtudiant);
-        parcel.writeInt(idTel);
+        //Todo
+        parcel.writeString(idTel);
         parcel.writeStringList(connexion);
     }
 }

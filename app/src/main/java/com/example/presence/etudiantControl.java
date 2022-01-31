@@ -90,7 +90,7 @@ public class etudiantControl extends AppCompatActivity {
 
         //Connexion à l'appareil
         int numEtu = personne.getIdEtudiant();
-        int numID = personne.getIdTel();
+        String numID = personne.getIdTel();
         Connexion connexion = new Connexion(device, numEtu, numID);
         Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
     }

@@ -16,9 +16,9 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Date;
 
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +31,13 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(MainActivity.this.getFilesDir(), "text");
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
-            personne.setIdTel(12346);
+            String newID;
+            http://www.javapractices.com/topic/TopicAction.do?Id=56
+            newID = GenerateUUID();
+            personne.setIdTel(newID);
+            Log.d("--*------*-----*-----","----*------------*----------*");
+            Log.d("Le idtel généré auto:",personne.getIdTel());
+            Log.d("--*------*-----*-----","----*------------*----------*");
             createFile(personne,file);
 
         }
@@ -123,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
             // on créer fichier
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
-            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("--*------*-----*-----","----*------------*----------*");
             Log.d("fichier","créer");
-            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("--*----*------*-----","----*------------*----------*");
             Toast.makeText(MainActivity.this, "Saved your text", Toast.LENGTH_LONG).show();
         } catch (Exception e) { }
 
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
-            p.setIdTel(Integer.valueOf(ListDesId[0]));
+            p.setIdTel(ListDesId[0]);
             p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
             Log.d("--*---------*-------*-----", "----*------------*----------*");
             Log.d("Id tel de personne", String.valueOf(p.getIdTel()));
@@ -186,4 +192,14 @@ public class MainActivity extends AppCompatActivity {
 
         return p;
     }
+    //public static class GenerateUUID {
+
+        public String GenerateUUID(){
+            //generate random UUIDs
+            UUID idOne = UUID.randomUUID();
+            String UniqId = String.valueOf(idOne);
+            Log.d("UUID One: " , String.valueOf(idOne));
+            return UniqId;
+        }
+
 }
