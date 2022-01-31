@@ -29,7 +29,7 @@ public class Connexion extends Thread{
         // ... (Add other message types here as needed.)
     }
 
-    public Connexion(BluetoothDevice device, int numEtu, int numID) {
+    public Connexion(BluetoothDevice device, int numEtu, String numID) {
         // Use a temporary object that is later assigned to mmSocket
         // because mmSocket is final.
         BluetoothSocket tmp = null;
@@ -51,7 +51,7 @@ public class Connexion extends Thread{
 
     }
 
-    public String run(int numEtu, int numID) {
+    public String run(int numEtu, String numID) {
 
         try {
             // Connect to the remote device through the socket. This call blocks
@@ -76,7 +76,7 @@ public class Connexion extends Thread{
         Log.d(TAG,"envoi message");
         ConnectedThread connexionEnvoi = new ConnectedThread(mmSocket);
 
-        String inputString = Integer.toString(numEtu)+";"+Integer.toString(numID);
+        String inputString = Integer.toString(numEtu)+";"+numID;
         Log.d("Message", inputString);
         byte[] byteArray = inputString.getBytes();
 
