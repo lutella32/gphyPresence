@@ -101,12 +101,38 @@ public class etudiantControl extends AppCompatActivity {
 
     //Bouton exit
     public void finishing(View view) {
+        //File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
+        File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
+        if (!file.exists()) {
+            createConnexionFile(personne,file);
 
-        finishAffinity();
-        System.exit(0);
-       // à faire
-        // stocké les nouvelles données de connexion dans le fichier avant de exit
+        }
+        else{
+            // sinon on charge info
+            //personne = getInformationFile(personne);
+        }
+
+    finishAffinity();
+    System.exit(0);
+   // à faire
+    // stocké les nouvelles données de connexion dans le fichier avant de exit
     }
+
+    public void createConnexionFile(Personne p, File file){
+        // si le dossier existe pas on le créer
+        file.mkdir();
+        try {
+            // on créer fichier
+            File gpxfile = new File(file, "Connexion");
+            Log.d("gpxfile", gpxfile.getAbsolutePath());
+            Log.d("--*------*-----*-----","----*------------*----------*");
+            Log.d("fichier","créer");
+            Log.d("--*----*------*-----","----*------------*----------*");
+        } catch (Exception e) {
+            Log.d("ERREUR","le fichier de sauvegarde des checks --> ECHEC");
+        }
+    }
+
     // code pour récupérer les données de personne depuis  la page main
     private void processIntentData(){
         Intent intent = getIntent();

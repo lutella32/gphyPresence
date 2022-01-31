@@ -38,12 +38,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Le idtel généré auto:",personne.getIdTel());
             Log.d("--*------*-----*-----","----*------------*----------*");
             createFile(personne,file);
-
         }
         else{
             // sinon on charge info
             personne = getInformationFile(personne);
-
         }
         // on met des données au pif dans personne, et la date du jour en String / test get et set
 
