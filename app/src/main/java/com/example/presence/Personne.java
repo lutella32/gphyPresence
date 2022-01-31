@@ -8,11 +8,11 @@ import java.util.ArrayList;
 public class Personne implements Parcelable {
     // Personne possède un idEtudiant, un idBluetooth et une liste de connexion en String
     private int idEtudiant;
-    private int idBluetooth;
+    private String idTel;
     private ArrayList<String> connexion;
     // les valeurs à la création de personne sont 0,0," "
     public Personne(){
-        idBluetooth=0;
+        idTel ="0";
         idEtudiant=0;
         connexion = new ArrayList<String>();
 
@@ -20,13 +20,13 @@ public class Personne implements Parcelable {
     // code généré automatiquement par android studio
     protected Personne(Parcel in) {
         idEtudiant = in.readInt();
-        idBluetooth = in.readInt();
+        idTel = String.valueOf(in.readInt());
         connexion = in.createStringArrayList();
     }
     // surchage de la méthode toStrong avec les getter
     public String toString(){
         StringBuilder sBuilder = new StringBuilder("\t Numéros Etudiant: " + this.getIdEtudiant() + "\n");
-        sBuilder.append("\t Id Bluetooth: ").append(this.getIdBluetooth()).append("\n");
+        sBuilder.append("\t Id Bluetooth: ").append(this.getIdTel()).append("\n");
         sBuilder.append("\t Connexion :").append(this.getConnexion()).append("\n");
 
         return sBuilder.toString();
@@ -45,8 +45,8 @@ public class Personne implements Parcelable {
 
 
     //Getter / Setter IdBluetooth
-    public int getIdBluetooth() { return idBluetooth; }
-    public void setIdBluetooth(int id) { this.idBluetooth = id; }
+    public String getIdTel() { return idTel; }
+    public void setIdTel(String id) { this.idTel = id; }
 
     //Getter / Setter
     public ArrayList<String> getConnexion() {
@@ -77,7 +77,8 @@ public class Personne implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idEtudiant);
-        parcel.writeInt(idBluetooth);
+        //Todo
+        parcel.writeString(idTel);
         parcel.writeStringList(connexion);
     }
 }

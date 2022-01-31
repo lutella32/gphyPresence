@@ -3,45 +3,22 @@ package com.example.presence;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.provider.Settings;
-import android.provider.Settings.System;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.Date;
-import java.io.FileWriter;
-import java.util.Scanner;
 
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +31,14 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(MainActivity.this.getFilesDir(), "text");
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
-            personne.setIdBluetooth(12346);
-            saveInformation(personne,file);
+            String newID;
+            http://www.javapractices.com/topic/TopicAction.do?Id=56
+            newID = GenerateUUID();
+            personne.setIdTel(newID);
+            Log.d("--*------*-----*-----","----*------------*----------*");
+            Log.d("Le idtel généré auto:",personne.getIdTel());
+            Log.d("--*------*-----*-----","----*------------*----------*");
+            createFile(personne,file);
 
         }
         else{
@@ -136,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void saveInformation(Personne p,File file){
+    public void createFile(Personne p, File file){
 
 
 
@@ -146,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
             // on créer fichier
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
-
+            Log.d("--*------*-----*-----","----*------------*----------*");
             Log.d("fichier","créer");
+            Log.d("--*----*------*-----","----*------------*----------*");
             Toast.makeText(MainActivity.this, "Saved your text", Toast.LENGTH_LONG).show();
         } catch (Exception e) { }
 
@@ -157,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public Personne getInformation(Personne p){
         // on récup le fichier avec l'emplacement
         File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
+        Log.d("gpxfile", fileEvents.getAbsolutePath());
         StringBuilder text = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileEvents));
@@ -164,18 +149,57 @@ public class MainActivity extends AppCompatActivity {
             // on lit chaque ligne pour récup info
             while ((line = br.readLine()) != null) {
                 text.append(line);
+                Log.d("--*---------*-------*-----","----*------------*----------*");
                 Log.d("ligne",line);
-                //TODO faire regex pour séparer idetudiant et idbluetooth et stocké dans Personne
-               // p.setIdBluetooth(Integer.parseInt(line));
-                text.append('\n');
+                Log.d("--*---------*-------*-----","----*------------*----------*");
+                //text.append('\n');
             }
             br.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("problème de récupération de données","erreur");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+        }
         String result = text.toString();
 
        // p.setIdEtudiant(Integer.parseInt(result));
         personne.print();
-        Log.d("resultat!!!!!!!!",result);
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+        Log.d("Ce qu'il y a dans Sample.txt:",result);
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+        String[] ListDesId = result.split(",", 2);
+
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+        for (String a : ListDesId) {
+            Log.d("Liste de IdTel et idEtu extrait du sample avec split:", a); }
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+        Log.d("Liste0",ListDesId[0]);
+        Log.d("Liste1",ListDesId[1]);
+
+        try {
+            //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
+            p.setIdTel(ListDesId[0]);
+            p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("Id tel de personne", String.valueOf(p.getIdTel()));
+            Log.d("Id etu de personne", String.valueOf(p.getIdEtudiant()));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }catch (Exception e){
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("ERREUR","Bien essayé boloss");
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }
+
         return p;
     }
+    //public static class GenerateUUID {
+
+        public String GenerateUUID(){
+            //generate random UUIDs
+            UUID idOne = UUID.randomUUID();
+            String UniqId = String.valueOf(idOne);
+            Log.d("UUID One: " , String.valueOf(idOne));
+            return UniqId;
+        }
+
 }
