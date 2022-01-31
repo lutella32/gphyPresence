@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
             String newID;
-            http://www.javapractices.com/topic/TopicAction.do?Id=56
             newID = GenerateUUID();
             personne.setIdTel(newID);
             Log.d("--*------*-----*-----","----*------------*----------*");
@@ -48,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         }
         // on met des données au pif dans personne, et la date du jour en String / test get et set
 
-        Date today = new Date();
-        Log.d("date", String.valueOf(today));
-        String date = String.valueOf(today);
-        personne.getConnexion().add(date);
+//        Date today = new Date();
+//        Log.d("date", String.valueOf(today));
+//        String date = String.valueOf(today);
+//        personne.getConnexion().add(date);
 
         // on affiche personne
         Log.d("test context","test");
@@ -62,7 +61,10 @@ public class MainActivity extends AppCompatActivity {
         // si la personne c'est déjà enregistrer et on va sur la page etudiantControl
         if (personne.getIdEtudiant() != 0) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_etudiant_control);
+//            setContentView(R.layout.activity_etudiant_control);
+            Intent lecture = new Intent(this, etudiantControl.class);
+            lecture.putExtra("FromNumToStarting", this.personne);
+            startActivity(lecture);
         } else {
             // sinon on reste sur la page main
             super.onCreate(savedInstanceState);

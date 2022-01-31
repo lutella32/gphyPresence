@@ -20,7 +20,7 @@ public class Personne implements Parcelable {
     // code généré automatiquement par android studio
     protected Personne(Parcel in) {
         idEtudiant = in.readInt();
-        idTel = String.valueOf(in.readInt());
+        idTel = in.readString();
         connexion = in.createStringArrayList();
     }
     // surchage de la méthode toStrong avec les getter
@@ -55,6 +55,17 @@ public class Personne implements Parcelable {
 
     public void setConnexion(ArrayList<String> connexion) {
         this.connexion = connexion;
+    }
+
+    public void addConnexion(String dateCo){
+        if (dateCo != "echec") {
+            if (connexion.size() == 10) {
+                this.connexion.remove(0);
+                this.connexion.add(dateCo);
+            } else {
+                this.connexion.add(dateCo);
+            }
+        }
     }
     // à faire pour la liste, une fonction addConnexion qui ajoute la dernire connexion en première position, décale tous d'un grand et supprime la connexion position 10
 
