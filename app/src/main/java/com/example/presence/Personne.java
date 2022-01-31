@@ -2,7 +2,10 @@ package com.example.presence;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Personne implements Parcelable {
@@ -23,10 +26,12 @@ public class Personne implements Parcelable {
         idTel = in.readString();
         connexion = in.createStringArrayList();
     }
+
+
     // surchage de la méthode toStrong avec les getter
     public String toString(){
         StringBuilder sBuilder = new StringBuilder("\t Numéros Etudiant: " + this.getIdEtudiant() + "\n");
-        sBuilder.append("\t Id Bluetooth: ").append(this.getIdTel()).append("\n");
+        sBuilder.append("\t Id tel: ").append(this.getIdTel()).append("\n");
         sBuilder.append("\t Connexion :").append(this.getConnexion()).append("\n");
 
         return sBuilder.toString();

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -49,11 +50,11 @@
         android:id="@+id/textView4"
         android:layout_width="398dp"
         android:layout_height="101dp"
-        android:text="@string/en_acceptant_l_utilisations_des_conditions_g_n_rales_vous_acceptez_l_utilisation_du_bluethoot_de_votre_num_ros_tudiant_des_fins_de_suivi_d_alternance_si_vous_refusez_il_vous_sera_demander_de_signer_sur_version_papier_au_bureau_de_monsieur_genier"
+        android:text="@string/conditions"
         android:textColor="#263238"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.24" />
@@ -73,6 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.417"
         tools:ignore="SpeakableTextPresentCheck" />
-
+    <!--
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

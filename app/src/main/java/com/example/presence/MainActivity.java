@@ -38,12 +38,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Le idtel généré auto:",personne.getIdTel());
             Log.d("--*------*-----*-----","----*------------*----------*");
             createFile(personne,file);
-
         }
         else{
             // sinon on charge info
-            personne = getInformation(personne);
-
+            personne = getInformationFile(personne);
         }
         // on met des données au pif dans personne, et la date du jour en String / test get et set
 
@@ -123,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void createFile(Personne p, File file){
 
-
-
         // si le dossier existe pas on le créer
         file.mkdir();
         try {
@@ -140,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     // on récupère info du fichier
-    public Personne getInformation(Personne p){
+    public Personne getInformationFile(Personne p){
         // on récup le fichier avec l'emplacement
         File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
         Log.d("gpxfile", fileEvents.getAbsolutePath());
