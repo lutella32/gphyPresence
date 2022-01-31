@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()) {
             // si fichier existe pas on prend info au pif
             String newID;
-            http://www.javapractices.com/topic/TopicAction.do?Id=56
             newID = GenerateUUID();
             personne.setIdTel(newID);
             Log.d("--*------*-----*-----","----*------------*----------*");
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             // sinon on charge info
-            personne = getInformation(personne);
+            personne = getInformationFile(personne);
 
         }
         // on met des données au pif dans personne, et la date du jour en String / test get et set
@@ -121,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void createFile(Personne p, File file){
 
-
-
         // si le dossier existe pas on le créer
         file.mkdir();
         try {
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     // on récupère info du fichier
-    public Personne getInformation(Personne p){
+    public Personne getInformationFile(Personne p){
         // on récup le fichier avec l'emplacement
         File fileEvents = new File(MainActivity.this.getFilesDir()+"/text/sample");
         Log.d("gpxfile", fileEvents.getAbsolutePath());

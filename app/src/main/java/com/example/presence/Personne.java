@@ -20,13 +20,13 @@ public class Personne implements Parcelable {
     // code généré automatiquement par android studio
     protected Personne(Parcel in) {
         idEtudiant = in.readInt();
-        idTel = String.valueOf(in.readInt());
+        idTel = in.readString();
         connexion = in.createStringArrayList();
     }
     // surchage de la méthode toStrong avec les getter
     public String toString(){
         StringBuilder sBuilder = new StringBuilder("\t Numéros Etudiant: " + this.getIdEtudiant() + "\n");
-        sBuilder.append("\t Id Bluetooth: ").append(this.getIdTel()).append("\n");
+        sBuilder.append("\t Id tel: ").append(this.getIdTel()).append("\n");
         sBuilder.append("\t Connexion :").append(this.getConnexion()).append("\n");
 
         return sBuilder.toString();

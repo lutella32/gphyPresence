@@ -136,16 +136,20 @@ public class etudiantControl extends AppCompatActivity {
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
             FileWriter writer = new FileWriter(gpxfile);
-            String b= String.valueOf(p.getIdTel());
+            String b= p.getIdTel();
             String Id = String.valueOf(p.getIdEtudiant());
             writer.append(b);
+            Log.d("b c'est l'idtel:", b);
+            Log.d("p.idtel c'est l'idtel:", p.getIdTel());
             writer.append(",");
             writer.append(Id);
+            Log.d("Id c'est l'idetu:", Id);
 
             writer.flush();
             writer.close();
             Log.d("--*---------*-------*-----","----*------------*----------*");
             Log.d("information sauvegardées","ok");
+
             Log.d("--*---------*-------*-----","----*------------*----------*");
             Toast.makeText(etudiantControl.this, "Saved your text", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
