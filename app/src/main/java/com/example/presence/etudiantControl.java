@@ -15,6 +15,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.widget.Toast;
 import android.bluetooth.BluetoothDevice;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -242,36 +244,94 @@ public class etudiantControl extends AppCompatActivity {
     //Bouton exit
     public void finishing(View view) {
         //File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
-        File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
+        // on ouvre fichier
+      /*  File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
         if (!file.exists()) {
             createConnexionFile(personne,file);
-
         }
-        else{
-            // sinon on charge info
-            //personne = getInformationFile(personne);
-        }
-
+        // sinon on charge info
+        personne = getConnexionFile(personne);
+*/
     finishAffinity();
     System.exit(0);
    // à faire
     // stocké les nouvelles données de connexion dans le fichier avant de exit
     }
-
+/*
     public void createConnexionFile(Personne p, File file){
         // si le dossier existe pas on le créer
         file.mkdir();
         try {
             // on créer fichier
             File gpxfile = new File(file, "Connexion");
-            Log.d("gpxfile", gpxfile.getAbsolutePath());
+            Log.d("gpxfile2", gpxfile.getAbsolutePath());
             Log.d("--*------*-----*-----","----*------------*----------*");
-            Log.d("fichier","créer");
+            Log.d("fichier Connexion","créer");
             Log.d("--*----*------*-----","----*------------*----------*");
         } catch (Exception e) {
             Log.d("ERREUR","le fichier de sauvegarde des checks --> ECHEC");
         }
     }
+
+    // on récupère info du fichier
+    public Personne getConnexionFile(Personne p){
+        // on récup le fichier avec l'emplacement
+        File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
+        Log.d("gpxfile2", fileEvents.getAbsolutePath());
+        StringBuilder text = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileEvents));
+            String line;
+            // on lit chaque ligne pour récup info
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                Log.d("--*---------*-------*-----","----*------------*----------*");
+                Log.d("ligne",line);
+                Log.d("--*---------*-------*-----","----*------------*----------*");
+                //text.append('\n');
+            }
+            br.close();
+        } catch (IOException e) {
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("problème de récupération de données","erreur");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+        }
+        String result = text.toString();
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+        Log.d("Ce qu'il y a dans connexion.txt:",result);
+        Log.d("--*---------*-------*-----","----*------------*----------*");
+
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+*/
+       /* for (char i : result.toCharArray()) {
+            String nConnexion = "";
+            char Xchar = result.charAt(i);
+            if (Xchar.Equals",") {
+
+            }else{
+                nConnexion = nConnexion + Xchar;
+            }
+
+            Log.d("Liste de IdTel et idEtu extrait du sample avec split:", nConnexion); }
+        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+
+
+        try {
+            //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
+            p.setIdTel(ListDesId[0]);
+            p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("Id tel de personne", String.valueOf(p.getIdTel()));
+            Log.d("Id etu de personne", String.valueOf(p.getIdEtudiant()));
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }catch (Exception e){
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+            Log.d("ERREUR","Bien essayé boloss");
+            Log.d("--*---------*-------*-----", "----*------------*----------*");
+        }
+
+        return p;
+    }*/
 
     // code pour récupérer les données de personne depuis  la page main
     private void processIntentData(){
