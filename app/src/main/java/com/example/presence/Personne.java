@@ -61,6 +61,17 @@ public class Personne implements Parcelable {
     public void setConnexion(ArrayList<String> connexion) {
         this.connexion = connexion;
     }
+
+    public void addConnexion(String dateCo){
+        if (dateCo != "echec") {
+            if (connexion.size() == 10) {
+                this.connexion.remove(0);
+                this.connexion.add(dateCo);
+            } else {
+                this.connexion.add(dateCo);
+            }
+        }
+    }
     // à faire pour la liste, une fonction addConnexion qui ajoute la dernire connexion en première position, décale tous d'un grand et supprime la connexion position 10
 
     // code généré par android studio pour transmettre personne d'une page à l'autre

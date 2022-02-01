@@ -12,25 +12,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class Connexion extends Thread{
     private final BluetoothSocket mmSocket;
     private final BluetoothDevice mmDevice;
     private String TAG = "Connexion";
 
-
-
-    // Defines several constants used when transmitting messages between the
-    // service and the UI.
-    private interface MessageConstants {
-        public static final int MESSAGE_READ = 0;
-        public static final int MESSAGE_WRITE = 1;
-        public static final int MESSAGE_TOAST = 2;
-
-        // ... (Add other message types here as needed.)
-    }
-
-    public Connexion(BluetoothDevice device, int numEtu, String numID) {
+    public Connexion(BluetoothDevice device, int numEtu, String numID, Personne personne) {
         // Use a temporary object that is later assigned to mmSocket
         // because mmSocket is final.
         BluetoothSocket tmp = null;
@@ -48,7 +37,27 @@ public class Connexion extends Thread{
         mmSocket = tmp;
         Log.d(TAG,"création socket OK");
         String messageRetour = run(numEtu, numID);
-        //personne.getConnexion().add("toto");
+        Log.d(TAG, messageRetour);
+
+        //Suppression des caractères supplémentaires
+        String[] listeRetour = messageRetour.split(";");
+        messageRetour = listeRetour[0];
+        Log.d(TAG, messageRetour);
+
+        //Recherche cas :
+        // cas1 : la personne ne s'est jamais connectée => réception de son nom et prénom pour confirmer son identité
+        // cas : personne déjà connecter => réception de son time_tag de connexion a enregistrer dans la liste des connexions
+
+        boolean check = messageRetour.matches("^[0-9]+");
+
+//        if (check){
+//
+//        }else{
+//            //todo
+//        }
+        personne.addConnexion(messageRetour);
+        personne.print();
+        personne.print();
 
     }
 
@@ -68,6 +77,7 @@ public class Connexion extends Thread{
             } catch (IOException closeException) {
                 Log.e(TAG, "Impossible de fermer la socket", closeException);
             }
+            Log.d("MessageR", "echec");
             return ("echec");
 
         }
@@ -85,6 +95,7 @@ public class Connexion extends Thread{
         String messageRetour = connexionEnvoi.reception();
         Log.d("messageRetour retourner", messageRetour);
         connexionEnvoi.cancel();
+
         return messageRetour;
     }
 
@@ -93,8 +104,8 @@ public class Connexion extends Thread{
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
         private byte[] mmBuffer; // mmBuffer store for the stream
-        private Handler handler; // handler that gets info from Bluetooth service
-        private Message readMsg;
+        //private Handler handler; // handler that gets info from Bluetooth service
+        //private Message readMsg;
 
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
@@ -131,16 +142,9 @@ public class Connexion extends Thread{
                     // Read from the InputStream.
                     numBytes = mmInStream.read(mmBuffer);
                     Log.d("Message retour", String.valueOf(numBytes));
-                    //Log.d("Message retour", String.valueOf(mmBuffer));
                     result = new String(mmBuffer, StandardCharsets.UTF_8);
                     Log.d("Message retour", result);
-                    //result = (String.valueOf(mmBuffer));
                     break;
-                    // Send the obtained bytes to the UI activity.
-//                    Message readMsg = handler.obtainMessage(
-//                            MessageConstants.MESSAGE_READ, numBytes, -1,
-//                            mmBuffer);
-//                    readMsg.sendToTarget();
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
                     result = "echec";
@@ -159,23 +163,9 @@ public class Connexion extends Thread{
                 mmOutStream.write(bytes);
                 Log.d(TAG, "Message envoyé");
 
-                // Share the sent message with the UI activity.
-//                Message writtenMsg = handler.obtainMessage(
-//                        MessageConstants.MESSAGE_WRITE, -1, -1, mmOutStream);
-//                Log.d(TAG, "Message écrit");
-//                writtenMsg.sendToTarget();
-//                Log.d(TAG, "Message envoyé");
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
 
-                //Send a failure message back to the activity.
-//                Message writeErrorMsg =
-//                        handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("toast",
-//                        "Couldn't send data to the other device");
-//                writeErrorMsg.setData(bundle);
-//                handler.sendMessage(writeErrorMsg);
             }
         }
 

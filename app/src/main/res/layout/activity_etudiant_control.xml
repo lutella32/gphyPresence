@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDate9" />
 
     <TextView
         android:id="@+id/textView5"
@@ -37,8 +37,8 @@
         android:text="@string/derni_res_connexions"
         android:textColor="#000000"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate0"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate0" />
 
     <Switch
         android:id="@+id/switch1"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtDate1"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="50dp"
@@ -62,31 +62,31 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/txtDate7"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate6"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate6" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/txtDate9"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate8"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate8" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/txtDate8"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate7"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate7" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/txtDate0"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -96,44 +96,44 @@
         app:layout_constraintTop_toBottomOf="@+id/switch1" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/txtDate2"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate1"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate1" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/txtDate4"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate3"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate3" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/txtDate3"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate2"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate2" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/txtDate5"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate4"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate4" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/txtDate6"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="null"
-        app:layout_constraintStart_toStartOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate5"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate5" />
 
     <Button
         android:id="@+id/buttonCheckIn"
