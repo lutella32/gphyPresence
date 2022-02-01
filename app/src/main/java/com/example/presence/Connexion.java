@@ -39,13 +39,24 @@ public class Connexion extends Thread{
         String messageRetour = run(numEtu, numID);
         Log.d(TAG, messageRetour);
 
-        //test avec Lucie
+        //Suppression des caractères supplémentaires
         String[] listeRetour = messageRetour.split(";");
         messageRetour = listeRetour[0];
         Log.d(TAG, messageRetour);
-        //fin test
 
+        //Recherche cas :
+        // cas1 : la personne ne s'est jamais connectée => réception de son nom et prénom pour confirmer son identité
+        // cas : personne déjà connecter => réception de son time_tag de connexion a enregistrer dans la liste des connexions
+
+        boolean check = messageRetour.matches("^[0-9]+");
+
+//        if (check){
+//
+//        }else{
+//            //todo
+//        }
         personne.addConnexion(messageRetour);
+        personne.print();
         personne.print();
 
     }
@@ -84,6 +95,7 @@ public class Connexion extends Thread{
         String messageRetour = connexionEnvoi.reception();
         Log.d("messageRetour retourner", messageRetour);
         connexionEnvoi.cancel();
+
         return messageRetour;
     }
 

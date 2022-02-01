@@ -8,21 +8,28 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Date;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     Personne personne;
+    private String adresseMAC = "E4:70:B8:09:DF:ED";
+    private Set<BluetoothDevice> devices;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // instancier new Personne
@@ -192,12 +199,58 @@ public class MainActivity extends AppCompatActivity {
     }
     //public static class GenerateUUID {
 
-        public String GenerateUUID(){
-            //generate random UUIDs
-            UUID idOne = UUID.randomUUID();
-            String UniqId = String.valueOf(idOne);
-            Log.d("UUID One: " , String.valueOf(idOne));
-            return UniqId;
+    public String GenerateUUID(){
+        //generate random UUIDs
+        UUID idOne = UUID.randomUUID();
+        String UniqId = String.valueOf(idOne);
+        Log.d("UUID One: " , String.valueOf(idOne));
+        return UniqId;
+    }
+
+    public void verifIdentity(View view){
+        //Vérification activation du bluetooth
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null)
+        {
+            Log.d("bluetoothTest:","bluetoothAdapter null");
+            Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if (!bluetoothAdapter.isEnabled())
+            {
+                Log.d("bluetoothTest:","bluetoothAdapter not enable");
+                Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+                bluetoothAdapter.enable();
+            }
+            else
+            {
+                Log.d("bluetoothTest:","bluetoothAdapter déjà enable");
+                Toast.makeText(getApplicationContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
+            }
         }
 
+        //Recherche de l'adaptateur dans la liste des périphériques liés
+        devices = bluetoothAdapter.getBondedDevices();
+
+        //Récupération de l'appareil auquel on veut se connecter
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(adresseMAC);
+
+
+        //Information de l'appareil
+        if (device.getName() != null){
+            Log.d("BluetoothConnect", device.getAddress());
+            Log.d("BluetoothConnect", device.getName());
+
+            //Connexion à l'appareil
+            int numEtu = personne.getIdEtudiant();
+            String numID = personne.getIdTel();
+            Connexion connexion = new Connexion(device, numEtu, numID, personne);
+            Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
+
+        }else{
+            Log.d("BluetoothConnect", "echec de connexion : serveur introuvable");
+            Toast.makeText(getApplicationContext(), "Connexion impossible", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
