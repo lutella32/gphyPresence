@@ -48,17 +48,19 @@ public class Connexion extends Thread{
         // cas1 : la personne ne s'est jamais connectée => réception de son nom et prénom pour confirmer son identité
         // cas : personne déjà connecter => réception de son time_tag de connexion a enregistrer dans la liste des connexions
 
-        boolean check = messageRetour.matches("^[0-9]+");
-
-//        if (check){
-//
-//        }else{
-//            //todo
-//        }
-        personne.addConnexion(messageRetour);
-        personne.print();
-        personne.print();
-
+        if (messageRetour!="echec") {
+            boolean check = messageRetour.matches("^[0-9]+.*");
+            Log.d("Message Date", String.valueOf(check));
+            if (check) {
+                personne.addConnexion(messageRetour);
+                personne.print();
+            } else {
+                personne.setNomPrenom(messageRetour);
+                personne.print();
+            }
+        }else{
+            Log.d("Message retour", "echec donc aucune action dans sur l'application");
+        }
     }
 
     public String run(int numEtu, String numID) {
