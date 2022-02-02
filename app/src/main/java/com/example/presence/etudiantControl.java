@@ -140,100 +140,100 @@ public class etudiantControl extends AppCompatActivity {
             }
         }
 
-        if (10 <= personne.getConnexion().size()){
-            if (personne.getConnexion().get(9) != null) {
+        if (tailleListe >= 1){
+            if (personne.getConnexion().get(tailleListe-1) != null) {
                 TextView text9 = (TextView) findViewById(R.id.txtDate0);
-                text9.setText(personne.getConnexion().get(9));
+                text9.setText(personne.getConnexion().get(tailleListe-1));
             }
         } else {
             TextView text9 = (TextView) findViewById(R.id.txtDate0);
             text9.setText("");
         }
 
-        if (9 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(8) != null) {
+        if (tailleListe >=2) {
+            if (personne.getConnexion().get(tailleListe-2) != null) {
                 TextView text8 = (TextView) findViewById(R.id.txtDate1);
-                text8.setText(personne.getConnexion().get(8));
+                text8.setText(personne.getConnexion().get(tailleListe-2));
             }
         } else {
             TextView text8 = (TextView) findViewById(R.id.txtDate1);
             text8.setText(" ");
         }
 
-        if (8 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(7) != null) {
+        if (tailleListe >=3) {
+            if (personne.getConnexion().get(tailleListe-3) != null) {
                 TextView text7 = (TextView) findViewById(R.id.txtDate2);
-                text7.setText(personne.getConnexion().get(7));
+                text7.setText(personne.getConnexion().get(tailleListe-3));
             }
         } else {
             TextView text7 = (TextView) findViewById(R.id.txtDate2);
             text7.setText(" ");
         }
 
-        if (7 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(6) != null) {
+        if (tailleListe >=4) {
+            if (personne.getConnexion().get(tailleListe-4) != null) {
                 TextView text6 = (TextView) findViewById(R.id.txtDate3);
-                text6.setText(personne.getConnexion().get(6));
+                text6.setText(personne.getConnexion().get(tailleListe-4));
             }
         } else {
             TextView text6 = (TextView) findViewById(R.id.txtDate3);
             text6.setText(" ");
         }
 
-        if (6 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(5) != null) {
+        if (tailleListe >=5) {
+            if (personne.getConnexion().get(tailleListe-5) != null) {
                 TextView text5 = (TextView) findViewById(R.id.txtDate4);
-                text5.setText(personne.getConnexion().get(5));
+                text5.setText(personne.getConnexion().get(tailleListe-5));
             }
         } else {
             TextView text5 = (TextView) findViewById(R.id.txtDate4);
             text5.setText("");
         }
 
-        if (5 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(4) != null) {
+        if (tailleListe >=6) {
+            if (personne.getConnexion().get(tailleListe-6) != null) {
                 TextView text4 = (TextView) findViewById(R.id.txtDate5);
-                text4.setText(personne.getConnexion().get(4));
+                text4.setText(personne.getConnexion().get(tailleListe-6));
             }
         } else {
             TextView text4 = (TextView) findViewById(R.id.txtDate5);
             text4.setText("");
         }
 
-        if (4 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(3) != null) {
+        if (tailleListe >=7) {
+            if (personne.getConnexion().get(tailleListe-7) != null) {
                 TextView text3 = (TextView) findViewById(R.id.txtDate6);
-                text3.setText(personne.getConnexion().get(3));
+                text3.setText(personne.getConnexion().get(tailleListe-7));
             }
         } else {
             TextView text3 = (TextView) findViewById(R.id.txtDate6);
             text3.setText("");
         }
 
-        if (3 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(2) != null) {
+        if (tailleListe >=8) {
+            if (personne.getConnexion().get(tailleListe-8) != null) {
                 TextView text2 = (TextView) findViewById(R.id.txtDate7);
-                text2.setText(personne.getConnexion().get(2));
+                text2.setText(personne.getConnexion().get(tailleListe-8));
             }
         } else {
             TextView text2 = (TextView) findViewById(R.id.txtDate7);
             text2.setText("");
         }
 
-        if (2 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(1) != null) {
+        if (tailleListe >=9) {
+            if (personne.getConnexion().get(tailleListe-9) != null) {
                 TextView text1 = (TextView) findViewById(R.id.txtDate8);
-                text1.setText(personne.getConnexion().get(1));
+                text1.setText(personne.getConnexion().get(tailleListe-9));
             }
         } else {
             TextView text1 = (TextView) findViewById(R.id.txtDate8);
             text1.setText("");
         }
 
-        if (1 <= personne.getConnexion().size()) {
-            if (personne.getConnexion().get(0) != null) {
+        if (tailleListe >=10) {
+            if (personne.getConnexion().get(tailleListe-10) != null) {
                 TextView text0 = (TextView) findViewById(R.id.txtDate9);
-                text0.setText(personne.getConnexion().get(0));
+                text0.setText(personne.getConnexion().get(tailleListe-10));
             }
         } else {
             TextView text0 = (TextView) findViewById(R.id.txtDate9);
