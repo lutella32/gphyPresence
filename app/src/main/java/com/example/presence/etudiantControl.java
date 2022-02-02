@@ -49,10 +49,21 @@ public class etudiantControl extends AppCompatActivity {
         processIntentData();
         setContentView(R.layout.activity_etudiant_control);
 
+        //File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
+        // on ouvre fichier
+        File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
+        if (!file.exists()) {
+            createConnexionFile(personne,file);
+        }else {
+            // sinon on charge info
+            personne = getConnexionFile(personne);
+        }
+        //en attendant de savoir bien recupérer dans file des vrais pointages...
+        /*personne.addConnexion("2022-02-02 08:49:19");
+        personne.addConnexion("2022-02-02 08:49:26");
+        personne.addConnexion("2022-02-02 08:49:33");*/
         // Affichage des 10 dernières connexions
         afficheConnexion();
-
-        saveInformationFile(personne);
     }
 
     //bouton "valider ma présence" : lancement de la connexion bluetooth
@@ -243,21 +254,19 @@ public class etudiantControl extends AppCompatActivity {
 
     //Bouton exit
     public void finishing(View view) {
-        //File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
-        // on ouvre fichier
-      /*  File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
-        if (!file.exists()) {
-            createConnexionFile(personne,file);
-        }
-        // sinon on charge info
-        personne = getConnexionFile(personne);
-*/
+    try {
+        saveConnexionFile(personne);
+        Log.d("HEYHEYY","LES CONNEXIONS SONT SAUVEGARDEES DANS LE CONNEXION");
+    }catch (Exception e){
+        Log.d("ATTENTION ERREUR","LA SAUVEGARDE DU FICHIER FAILED");
+    }
+
     finishAffinity();
     System.exit(0);
    // à faire
     // stocké les nouvelles données de connexion dans le fichier avant de exit
     }
-/*
+
     public void createConnexionFile(Personne p, File file){
         // si le dossier existe pas on le créer
         file.mkdir();
@@ -302,21 +311,25 @@ public class etudiantControl extends AppCompatActivity {
         Log.d("--*---------*-------*-----","----*------------*----------*");
 
         Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
-*/
-       /* for (char i : result.toCharArray()) {
-            String nConnexion = "";
+        String nConnexion = "";;
+        for (char i : result.toCharArray()) {
             char Xchar = result.charAt(i);
-            if (Xchar.Equals",") {
-
-            }else{
+            if (Xchar == ',') {
+                personne.addConnexion(nConnexion);
+                Log.d("Le nConnexion:", nConnexion);
+                nConnexion = "";
+            }if (Xchar == '['){
+                Log.d("Début de la liste [","...");
+            }if (Xchar == ']'){
+                Log.d("Fin de la liste ]","...");
+            }
+            else{
                 nConnexion = nConnexion + Xchar;
             }
-
-            Log.d("Liste de IdTel et idEtu extrait du sample avec split:", nConnexion); }
+        }
         Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
 
-
-        try {
+       /* try {
             //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
             p.setIdTel(ListDesId[0]);
             p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
@@ -328,10 +341,34 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("--*---------*-------*-----", "----*------------*----------*");
             Log.d("ERREUR","Bien essayé boloss");
             Log.d("--*---------*-------*-----", "----*------------*----------*");
-        }
-
+        }*/
         return p;
-    }*/
+    }
+
+    public void saveConnexionFile(Personne p){
+
+        File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
+
+        try {
+            File gpxfile = new File(file, "Connexion");
+            Log.d("gpxfile2", gpxfile.getAbsolutePath());
+            FileWriter writer = new FileWriter(gpxfile);
+            String textInsert = String.valueOf(p.getConnexion());
+            writer.append(textInsert);
+            Log.d("C'est la liste des connexion recup de pers:", textInsert);
+            writer.flush();
+            writer.close();
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("Connexions sauvegardées","ok");
+
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Toast.makeText(etudiantControl.this, "Connexion sauvegardée", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+            Log.d("problème de sauvegarde","data");
+            Log.d("--*---------*-------*-----","----*------------*----------*");
+        }
+    }
 
     // code pour récupérer les données de personne depuis  la page main
     private void processIntentData(){
