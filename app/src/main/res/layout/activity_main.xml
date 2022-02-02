@@ -8,6 +8,7 @@
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
+
     <TextView
         android:id="@+id/txtNumeroEtudiant"
         android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:backgroundTint="#00BCD4"
         android:onClick="start"
         android:text="@string/accepter"
         android:textColor="#FFFFFF"
@@ -105,13 +107,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
-        android:shadowColor="#3D4FBB"
-        android:text="@string/oui"
+        android:backgroundTint="#00BCD4"
         android:onClick="buttonOui"
+        android:text="@string/oui"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom"
-        app:rippleColor="#3D4FBB"
-        app:strokeColor="#3D4FBB" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom" />
 
     <Button
         android:id="@+id/buttonNon"
@@ -119,25 +120,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="80dp"
-        android:shadowColor="#3D4FBB"
-        android:text="@string/non"
+        android:backgroundTint="#00BCD4"
         android:onClick="buttonNon"
+        android:text="@string/non"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom"
-        app:rippleColor="#3D4FBB"
-        app:strokeColor="#3D4FBB" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom" />
 
     <TextView
         android:id="@+id/txtNomAppli"
         android:layout_width="0dp"
         android:layout_height="51dp"
-        android:background="#3F51B5"
+        android:background="#00BCD4"
+        android:fontFamily="sans-serif-thin"
         android:lineSpacingExtra="10sp"
         android:text="@string/etucheck"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
-        android:textStyle="bold"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -146,8 +147,9 @@
         android:id="@+id/buttonValidNumEtu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/valider"
+        android:backgroundTint="#00BCD4"
         android:onClick="verifIdentity"
+        android:text="@string/valider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textInputLayoutNumEtu"
         app:layout_constraintTop_toTopOf="@+id/textInputLayoutNumEtu" />
