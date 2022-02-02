@@ -89,23 +89,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d("start","you are in start");
 
         //Creation du fichier
-            File file = new File(MainActivity.this.getFilesDir(), "text");
-            createFile(personne,file);
+        File file = new File(MainActivity.this.getFilesDir(), "text");
+        createFile(personne,file);
 
-            // on passe à la page etudiantControl et on transmet personne avec l'idetudiant enregistré
-            Intent lecture = new Intent(this, etudiantControl.class);
-            lecture.putExtra("FromNumToStarting", this.personne);
-            startActivity(lecture);
-    }
-    // code d'essais bluetooth et android id à supprimer à la fin
-    //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
-    // manager.getAdapter().getAddress();
-    //BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-    // Log.d("bluetooth adaptateur",adapter.getAddress());
-   // String androidID = System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-    //String id = android.provider.Settings.System.getString(super.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
-
+        // on passe à la page etudiantControl et on transmet personne avec l'idetudiant enregistré
+        Intent lecture = new Intent(this, etudiantControl.class);
+        lecture.putExtra("FromNumToStarting", this.personne);
+        startActivity(lecture);
+}
 
     public void createFile(Personne p, File file){
 
@@ -196,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
         // création de ce qu'il faut pour le toast ( message erreur, si pas idetudiant remplis)
         Context context = getApplicationContext();
-        CharSequence textToast = "You need to enter a student id";
-        int duration = Toast.LENGTH_SHORT;
+        CharSequence textToast = "Veuillez saisir un numéro étudiant";
+        int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, textToast, duration);
 
         if (!number.getText().toString().equals("")) {
@@ -239,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
         //Récupération de l'appareil auquel on veut se connecter
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(adresseMAC);
 
-
         //Information de l'appareil
         if (device.getName() != null){
             Log.d("BluetoothConnect", device.getAddress());
@@ -251,12 +241,17 @@ public class MainActivity extends AppCompatActivity {
             Connexion connexion = new Connexion(device, numEtu, numID, personne);
             Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
             afficheNom();
-            boutonOui.setEnabled(true);
-            boutonNon.setEnabled(true);
+            Log.d("Contenu nom prénom", personne.getNomPrenom());
+            if (personne.getNomPrenom().equals("Mauvais identifiant de téléphone") | personne.getNomPrenom().equals("Numéro étudiant inconnu")){
+                Toast.makeText(getApplicationContext(), "Veuillez modifier le numéro étudiant et valider à nouveau", Toast.LENGTH_LONG).show();
+            }else{
+                boutonOui.setEnabled(true);
+                boutonNon.setEnabled(true);
+            }
 
         }else{
             Log.d("BluetoothConnect", "echec de connexion : serveur introuvable");
-            Toast.makeText(getApplicationContext(), "Connexion impossible", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Connexion impossible", Toast.LENGTH_LONG).show();
         }
         afficheNom();
     }
@@ -271,6 +266,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonNon(View view){
-        Toast.makeText(getApplicationContext(), "Rapprochez-vous de votre responsable de formation", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Rapprochez-vous de votre responsable de formation", Toast.LENGTH_LONG).show();
     }
 }
