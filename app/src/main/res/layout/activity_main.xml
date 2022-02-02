@@ -9,67 +9,147 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="238dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="50dp"
+        android:id="@+id/txtNumeroEtudiant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
         android:text="@string/numros_etudiant"
         android:textColor="#263238"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtConditionsG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="15dp"
         android:text="@string/conditions_g_n_rales"
         android:textColor="#263238"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintBottom_toTopOf="@+id/txtCG"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAccepter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:onClick="start"
         android:text="@string/accepter"
-        android:textColor="#171615"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.784"
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="327dp"
-        android:layout_height="95dp"
+        android:id="@+id/txtCG"
+        android:layout_width="332dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="@string/conditions"
         android:textColor="#263238"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAccepter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextNumber"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutNumEtu"
+        android:layout_width="224dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        app:boxBackgroundColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/txtNumeroEtudiant"
+        app:layout_constraintTop_toBottomOf="@+id/txtNumeroEtudiant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtNumEtu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:textColorHint="#DACECE"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/txtEtesVous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.263"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/tes_vous"
+        android:textColor="#263238"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.417"
-        tools:ignore="SpeakableTextPresentCheck" />
-    <!---->
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutNumEtu" />
+
+    <TextView
+        android:id="@+id/txtNomPrenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/nom_pr_nom"
+        android:textColor="#263238"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEtesVous" />
+
+    <Button
+        android:id="@+id/buttonOui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="30dp"
+        android:shadowColor="#3D4FBB"
+        android:text="@string/oui"
+        android:onClick="buttonOui"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom"
+        app:rippleColor="#3D4FBB"
+        app:strokeColor="#3D4FBB" />
+
+    <Button
+        android:id="@+id/buttonNon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="80dp"
+        android:shadowColor="#3D4FBB"
+        android:text="@string/non"
+        android:onClick="buttonNon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPrenom"
+        app:rippleColor="#3D4FBB"
+        app:strokeColor="#3D4FBB" />
+
+    <TextView
+        android:id="@+id/txtNomAppli"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:background="#3F51B5"
+        android:lineSpacingExtra="10sp"
+        android:text="@string/etucheck"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonValidNumEtu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/valider"
+        android:onClick="verifIdentity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayoutNumEtu"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayoutNumEtu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,13 @@
     <string name="textview">TextView</string>
     <string name="readme">/Notes/readme.txt</string>
     <string name="valider_ma_pr_sence">Valider ma présence</string>
+    <string name="_12345678">12345678</string>
+    <string name="tes_vous">Êtes-vous :</string>
+    <string name="nom_pr_nom">Nom Prénom</string>
+    <string name="oui">OUI</string>
+    <string name="non">NON</string>
+    <string name="etucheck">EtuCheck</string>
+    <string name="valider">valider</string>
 
 
 </resources>
