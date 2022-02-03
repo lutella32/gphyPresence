@@ -8,7 +8,7 @@
     <string name="exit">exit</string>
     <string name="derni_res_connexions">Dernières Connexions</string>
     <string name="numeros">numeros</string>
-    <string name="conditions">En acceptant les conditions générales, vous acceptez l\'utilisation du bluetooth ainsi que votre numéro étudiant à des fins de suivi d\'alternance. Si vous refusez, il vous sera demander de signer matin et après-midi une version papier de pointage au bureau de Monsieur Geniet.</string>
+    <string name="conditions">En acceptant les conditions générales, vous acceptez l\'utilisation du bluetooth ainsi que de votre numéro étudiant à des fins de suivi d\'alternance. Si vous refusez, il vous sera demandé de signer matin et après-midi une version papier de pointage au bureau de votre responsable de formation.</string>
     <string name="connect">Connecté</string>
     <string name="textview">TextView</string>
     <string name="readme">/Notes/readme.txt</string>
