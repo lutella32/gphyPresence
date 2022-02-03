@@ -64,6 +64,7 @@ public class etudiantControl extends AppCompatActivity {
         // Affichage des 10 dernières connexions
         afficheConnexion();
         saveInformationFile(personne);
+        saveConnexionFile(personne);
     }
 
     //bouton "valider ma présence" : lancement de la connexion bluetooth
@@ -162,7 +163,7 @@ public class etudiantControl extends AppCompatActivity {
         if (tailleListe >=2) {
             if (personne.getConnexion().get(tailleListe-2) != null) {
                 TextView text8 = (TextView) findViewById(R.id.txtDate1);
-                text8.setText(personne.getConnexion().get(tailleListe-2));
+                text8.setText(personne.getConnexion().get(tailleListe-2).toString());
             }
         } else {
             TextView text8 = (TextView) findViewById(R.id.txtDate1);
@@ -308,24 +309,38 @@ public class etudiantControl extends AppCompatActivity {
         Log.d("Ce qu'il y a dans connexion.txt:",result);
         Log.d("--*---------*-------*-----","----*------------*----------*");
 
-        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
-        String nConnexion = "";;
-        for (char i : result.toCharArray()) {
-            char Xchar = result.charAt(i);
-            if (Xchar == ',') {
-                personne.addConnexion(nConnexion);
-                Log.d("Le nConnexion:", nConnexion);
-                nConnexion = "";
-            }if (Xchar == '['){
-                Log.d("Début de la liste [","...");
-            }if (Xchar == ']'){
-                Log.d("Fin de la liste ]","...");
+        try {
+            Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+            String nConnexion = "";
+            ;
+            for (int i = 0; i< result.length(); i++) {
+                char Xchar = result.charAt(i);
+                if (Xchar == ',') {
+                    personne.addConnexion(nConnexion);
+                    Log.d("Le nConnexion:", nConnexion);
+                    nConnexion = "";
+                    i=i+1;
+                }
+                else if (Xchar == '[') {
+                    Log.d("Début de la liste [", "...");
+                }
+                else if (Xchar == ']') {
+                    Log.d("Fin de la liste ]", "...");
+                    personne.addConnexion(nConnexion);
+                    Log.d("Le nConnexion:", nConnexion);
+               // }else if (Xchar == ' ') {
+                //    nConnexion = nConnexion + '_';
+                } else {
+                    nConnexion = nConnexion + Xchar;
+                }
             }
-            else{
-                nConnexion = nConnexion + Xchar;
-            }
+            personne.print();
+            Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+        }catch (Exception e){
+            Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+            Log.d("Probleme :", "pas de set personne.connexion");
+            Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
         }
-        Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
 
        /* try {
             //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
