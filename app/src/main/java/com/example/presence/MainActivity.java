@@ -89,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("start","you are in start");
 
         //Creation du fichier
-            File file = new File(MainActivity.this.getFilesDir(), "text");
-            createFile(personne,file);
+        File file = new File(MainActivity.this.getFilesDir(), "text");
+        createFile(personne,file);
 
-            // on passe à la page etudiantControl et on transmet personne avec l'idetudiant enregistré
-            Intent lecture = new Intent(this, etudiantControl.class);
-            lecture.putExtra("FromNumToStarting", this.personne);
-            startActivity(lecture);
+        // on passe à la page etudiantControl et on transmet personne avec l'idetudiant enregistré
+        Intent lecture = new Intent(this, etudiantControl.class);
+        lecture.putExtra("FromNumToStarting", this.personne);
+        startActivity(lecture);
     }
     // code d'essais bluetooth et android id à supprimer à la fin
     //  final BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
