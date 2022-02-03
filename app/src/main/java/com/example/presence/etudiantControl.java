@@ -49,7 +49,6 @@ public class etudiantControl extends AppCompatActivity {
         processIntentData();
         setContentView(R.layout.activity_etudiant_control);
 
-        //File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
         // on ouvre fichier
         File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
         if (!file.exists()) {
@@ -64,6 +63,7 @@ public class etudiantControl extends AppCompatActivity {
         personne.addConnexion("2022-02-02 08:49:33");*/
         // Affichage des 10 dernières connexions
         afficheConnexion();
+        saveInformationFile(personne);
     }
 
     //bouton "valider ma présence" : lancement de la connexion bluetooth
