@@ -18,6 +18,7 @@
         android:text="@string/numros_etudiant"
         android:textColor="#263238"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +30,8 @@
         android:layout_marginBottom="15dp"
         android:text="@string/conditions_g_n_rales"
         android:textColor="#263238"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtCG"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -37,7 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="#00BCD4"
         android:onClick="start"
         android:text="@string/accepter"
         android:textColor="#FFFFFF"
@@ -86,6 +88,7 @@
         android:text="@string/tes_vous"
         android:textColor="#263238"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutNumEtu" />
 
@@ -107,7 +110,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#00BCD4"
         android:onClick="buttonOui"
         android:text="@string/oui"
         android:textColor="#FFFFFF"
@@ -120,7 +122,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="80dp"
-        android:backgroundTint="#00BCD4"
         android:onClick="buttonNon"
         android:text="@string/non"
         android:textColor="#FFFFFF"

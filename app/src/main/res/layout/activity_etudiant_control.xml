@@ -26,7 +26,6 @@
         android:id="@+id/button2"
         android:layout_width="84dp"
         android:layout_height="48dp"
-        android:backgroundTint="#00BCD4"
         android:onClick="finishing"
         android:text="@string/exit"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,10 +143,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#00BCD4"
         android:onClick="connexionBT"
         android:text="@string/valider_ma_pr_sence"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="97dp" />
+        tools:layout_editor_absoluteY="97dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
