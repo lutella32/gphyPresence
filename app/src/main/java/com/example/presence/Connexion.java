@@ -65,7 +65,7 @@ public class Connexion extends Thread{
         if (messageRetour!="echec") {
             // On regarde avec une regex si le message est une date et heure de connexion
             boolean check = messageRetour.matches("^[0-9]+.*");
-            Log.d("Message Date", String.valueOf(check));
+            Log.d(TAG+" connexion, message Date", String.valueOf(check));
 
             // Si le message est une date et heure
             if (check) {
@@ -78,7 +78,7 @@ public class Connexion extends Thread{
                 personne.print();
             }
         }else{ // Si message retour est "echec" c'est que l'échange de message n'a pas fonctionné
-            Log.d("Message retour", "echec donc aucune action sur l'application");
+            Log.d(TAG+" connexion, message retour", "echec donc aucune action sur l'application");
         }
     }
 
@@ -93,23 +93,23 @@ public class Connexion extends Thread{
         try {
             // Connexion de l'appareil grace à la socket
             mmSocket.connect();
-            Log.d(TAG,"connecté");
+            Log.d(TAG+" run","socket connectée");
         } catch (IOException connectException) {
             // Connexion à la socket impossible, on ferme la socket
-            Log.e(TAG,  "échec de connexion", connectException);
+            Log.e(TAG+" run",  "échec de connexion", connectException);
             try {
                 mmSocket.close();
-                Log.d(TAG,"socket fermée");
+                Log.d(TAG+" run","socket fermée");
             } catch (IOException closeException) {
-                Log.e(TAG, "impossible de fermer la socket", closeException);
+                Log.e(TAG+" run", "impossible de fermer la socket", closeException);
             }
             //Si la connexion n'a pas fonctionnée on retourne le message "echec"
-            Log.d("MessageRetour:", "echec");
+            Log.d(TAG+" run, message retour:", "echec");
             return ("echec");
         }
 
         // La connexion a fonctionné, on peut échanger des messages
-        Log.d(TAG,"envoi message");
+        Log.d(TAG+" run","envoi du message");
 
         //Création d'un thread dans la socket pour envoi et réception de message
         ConnectedThread connexionEnvoi = new ConnectedThread(mmSocket);
@@ -117,13 +117,14 @@ public class Connexion extends Thread{
         //Ecriture du message et conversion en byte (format d'envoi des messages par bluetooth)
         String inputString = Integer.toString(numEtu)+";"+numID;
         byte[] byteArray = inputString.getBytes();
-        Log.d("Message envoyé", inputString);
+        Log.d(TAG+" run, message a envoyé", inputString);
         // Envoi du message en byte
         connexionEnvoi.write(byteArray);
+        Log.d(TAG+" run, message envoyé", inputString);
 
         //Réception du message réponse envoyé par le serveur
         String messageRetour = connexionEnvoi.reception();
-        Log.d("Message reçu", messageRetour);
+        Log.d(TAG+" run, message reçu", messageRetour);
 
         //Fermeture de la socket
         connexionEnvoi.cancel();
@@ -155,15 +156,15 @@ public class Connexion extends Thread{
             // Récupération des fluxs entrant et sortant (InputStream, OutputStream)
             try {
                 tmpIn = socket.getInputStream();
-                Log.d(TAG, "Input stream OK");
+                Log.d(TAG+" ConnectedThread", "Input stream OK");
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating input stream", e);
+                Log.e(TAG+" ConnectedThread", "Erreur dans la création de l'input stream", e);
             }
             try {
                 tmpOut = socket.getOutputStream();
-                Log.d(TAG, "Output stream OK");
+                Log.d(TAG+" ConnectedThread", "Output stream OK");
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating output stream", e);
+                Log.e(TAG+" ConnectedThread", "Erreur dans la creation de l'output stream", e);
             }
 
             //Assignation des fluxs
@@ -187,39 +188,48 @@ public class Connexion extends Thread{
                     numBytes = mmInStream.read(mmBuffer);
                     //Conversion du message reçu (de bytes en string)
                     result = new String(mmBuffer, StandardCharsets.UTF_8);
-                    Log.d("Message retour", result);
+                    Log.d(TAG+" reception, message retour", result);
                     break;
                 } catch (IOException e) {
-                    Log.d(TAG, "Input stream was disconnected", e);
-                    result = "echec";
+                    Log.d(TAG+" reception", "Le flux entrant a été stoppé", e);
+                    result = "echec"; // on retourne le message 'echec' si la lecture a échoué
                     break;
                 }
             }
+            //Si le message reçu est nul, on retourne 'echec'
             if (result == null) {
                 result = "echec";
             }
+            // On retourne le message
             return result;
         }
 
-        // Call this from the main activity to send data to the remote device.
+        /**
+         * Method write : permet d'envoyer un message au serveur
+         * @param bytes message de type bytes à envoyer au serveur
+         */
         public void write(byte[] bytes) {
+            // On essaie d'écrire le message dans le flux sortant
             try {
                 mmOutStream.write(bytes);
-                Log.d(TAG, "Message envoyé");
+                Log.d(TAG+" write", "Message envoyé");
 
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when sending data", e);
+                Log.e(TAG+ " write", "Erreur dans l'envoi du message", e);
 
             }
         }
 
-        // Call this method from the main activity to shut down the connection.
+        /**
+         * Method cancel : fermeture de la socket (coupure de la connexion)
+         */
         public void cancel() {
+            // On essaie de fermer la socket pour couper la connexion entre le serveur et le client
             try {
                 mmSocket.close();
-                Log.d(TAG, "Socket close");
+                Log.d(TAG+" cancel", "Socket fermée");
             } catch (IOException e) {
-                Log.e(TAG, "Could not close the connect socket", e);
+                Log.e(TAG+ "cancel", "Fermeture de socket impossible", e);
             }
         }
     }
