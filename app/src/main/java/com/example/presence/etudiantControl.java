@@ -57,7 +57,6 @@ public class etudiantControl extends AppCompatActivity {
             // sinon on charge info
             personne = getConnexionFile(personne);
         }
-        //en attendant de savoir bien recupérer dans file des vrais pointages...
         /*personne.addConnexion("2022-02-02 08:49:19");
         personne.addConnexion("2022-02-02 08:49:26");
         personne.addConnexion("2022-02-02 08:49:33");*/
@@ -127,28 +126,30 @@ public class etudiantControl extends AppCompatActivity {
         Switch switch1 = (Switch) findViewById(R.id.switch1);
         int tailleListe = personne.getConnexion().size();
         if (personne.getConnexion().size() > 0) {
-            String dateDerniereCo = personne.getConnexion().get(tailleListe-1).replace(" ", "T");
-            Log.d("Test date", dateDerniereCo);
-            LocalDateTime dateTime = LocalDateTime.parse(dateDerniereCo);
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime nowMorning1 = LocalDateTime.now().withHour(8).withMinute(0).withSecond(0);
-            LocalDateTime nowMorning2 = LocalDateTime.now().withHour(12).withMinute(30).withSecond(0);
-            LocalDateTime nowAfternoon1 = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0);
-            LocalDateTime nowAfternoon2 = LocalDateTime.now().withHour(19).withMinute(00).withSecond(0);
+            if (!personne.getConnexion().get(0).equals("null")) {
+                String dateDerniereCo = personne.getConnexion().get(tailleListe - 1).replace(" ", "T");
+                Log.d("Test date", dateDerniereCo);
+                LocalDateTime dateTime = LocalDateTime.parse(dateDerniereCo);
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime nowMorning1 = LocalDateTime.now().withHour(8).withMinute(0).withSecond(0);
+                LocalDateTime nowMorning2 = LocalDateTime.now().withHour(12).withMinute(30).withSecond(0);
+                LocalDateTime nowAfternoon1 = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0);
+                LocalDateTime nowAfternoon2 = LocalDateTime.now().withHour(19).withMinute(00).withSecond(0);
 
-            boolean matin = now.isBefore(nowMorning2);
-            boolean apresM = now.isAfter(nowAfternoon1);
+                boolean matin = now.isBefore(nowMorning2);
+                boolean apresM = now.isAfter(nowAfternoon1);
 
-            if (matin) {
-                if (dateTime.isAfter(nowMorning1) && dateTime.isBefore(nowMorning2)) {
-                    switch1.setChecked(true);
+                if (matin) {
+                    if (dateTime.isAfter(nowMorning1) && dateTime.isBefore(nowMorning2)) {
+                        switch1.setChecked(true);
+                    }
+                } else if (apresM) {
+                    if (dateTime.isAfter(nowAfternoon1) && dateTime.isBefore(nowAfternoon2)) {
+                        switch1.setChecked(true);
+                    }
+                } else {
+                    switch1.setChecked(false);
                 }
-            } else if (apresM) {
-                if (dateTime.isAfter(nowAfternoon1) && dateTime.isBefore(nowAfternoon2)) {
-                    switch1.setChecked(true);
-                }
-            } else {
-                switch1.setChecked(false);
             }
         }
 
@@ -343,20 +344,6 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("Probleme :", "pas de set personne.connexion");
             Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
         }
-
-       /* try {
-            //Reaffectation de l'idTel et de l'idEtu dextrait du sample dans personne
-            p.setIdTel(ListDesId[0]);
-            p.setIdEtudiant(Integer.valueOf(ListDesId[1]));
-            Log.d("--*---------*-------*-----", "----*------------*----------*");
-            Log.d("Id tel de personne", String.valueOf(p.getIdTel()));
-            Log.d("Id etu de personne", String.valueOf(p.getIdEtudiant()));
-            Log.d("--*---------*-------*-----", "----*------------*----------*");
-        }catch (Exception e){
-            Log.d("--*---------*-------*-----", "----*------------*----------*");
-            Log.d("ERREUR","Bien essayé boloss");
-            Log.d("--*---------*-------*-----", "----*------------*----------*");
-        }*/
         return p;
     }
 
