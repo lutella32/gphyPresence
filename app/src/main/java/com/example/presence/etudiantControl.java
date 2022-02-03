@@ -107,9 +107,7 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("BluetoothConnect", device.getName());
 
             //Connexion à l'appareil
-            int numEtu = personne.getIdEtudiant();
-            String numID = personne.getIdTel();
-            Connexion connexion = new Connexion(device, numEtu, numID, personne);
+            Connexion connexion = new Connexion(device, personne);
             //personne.print();
             Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
             afficheConnexion();

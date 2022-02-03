@@ -1,30 +1,37 @@
+// Imports
 package com.example.presence;
-
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.ViewDebug;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
+/**
+ * Classe connexion : classe permettant la création d'une socket bluetooth entre
+ * le smartphone (client) et l'ordinateur avec script de connexion (serveur).
+ * La socket bluetooth permet l'échange de message entre le client et le serveur
+ */
 public class Connexion extends Thread{
-    private final BluetoothSocket mmSocket;
-    private final BluetoothDevice mmDevice;
-    private String TAG = "Connexion";
 
-    public Connexion(BluetoothDevice device, int numEtu, String numID, Personne personne) {
-        // Use a temporary object that is later assigned to mmSocket
-        // because mmSocket is final.
+    private final BluetoothSocket mmSocket; // la socket est le canal de communication entre le client et le serveur
+    private final BluetoothDevice mmDevice; // le device est l'appareil bluetooth auquel on souhaite se connecté (l'adaptateur bluetooth lié au serveur)
+    private String TAG = "Classe connexion"; // TAG pour les logs de la classe
+
+    /**
+     * Constructeur de la classe connexion : création d'une socket entre le client et le serveur
+     * @param device apprareil auquel on se connecte (ordinateur serveur via adaptateur bluetooth)
+     * @param personne objet personne contenant les informations de l'étudiant qui seront transmises par le message
+     */
+    public Connexion(BluetoothDevice device, Personne personne) {
+        // Utilisation d'un objet socket temporaire qui sera plus tard assigné à mmSocket
         BluetoothSocket tmp = null;
-
+        //Appareil
         mmDevice = device;
+
+        //Creation de la socket sur le port n°5 (les ports bluetooth sont les ports des numéros 1 à 30)
         try {
             tmp = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class } ).invoke(device, 5);
         } catch (IllegalAccessException e) {
@@ -34,88 +41,118 @@ public class Connexion extends Thread{
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
+        // on assigne la socket à la variable mmSocket
         mmSocket = tmp;
         Log.d(TAG,"création socket OK");
-        String messageRetour = run(numEtu, numID);
+
+        //Récupération du message retour retourner par la fonction run
+        String messageRetour = run(personne.getIdEtudiant(), personne.getIdTel());
         Log.d(TAG, messageRetour);
 
-        //Suppression des caractères supplémentaires
+        //Suppression des caractères supplémentaires du message retour
+        // Tous les messages retours sont envoyés avec un point virgule à la fin
+        // car des caractères non souhaitées s'ajoutent à la suite du message
+        // on fait donc un split sur le ';' pour supprimer les caractères non souahités
         String[] listeRetour = messageRetour.split(";");
         messageRetour = listeRetour[0];
         Log.d(TAG, messageRetour);
 
-        //Recherche cas :
+        //Recherche cas de message retour (2 types de messages peuvent être reçu selon la situation):
         // cas1 : la personne ne s'est jamais connectée => réception de son nom et prénom pour confirmer son identité
-        // cas : personne déjà connecter => réception de son time_tag de connexion a enregistrer dans la liste des connexions
+        // cas2 : personne déjà connectée => réception de son horaire de connexion à enregistrer dans la liste des connexions
 
+        //Si message retour différent de "echec"
         if (messageRetour!="echec") {
+            // On regarde avec une regex si le message est une date et heure de connexion
             boolean check = messageRetour.matches("^[0-9]+.*");
             Log.d("Message Date", String.valueOf(check));
+
+            // Si le message est une date et heure
             if (check) {
+                //On ajoute le message dans la liste des connexions de l'étudiant
                 personne.addConnexion(messageRetour);
                 personne.print();
-            } else {
+            } else { // Sinon le message est le nom et le prenom
+                //donc on met à jour le nom et le prénom de la personne
                 personne.setNomPrenom(messageRetour);
                 personne.print();
             }
-        }else{
-            Log.d("Message retour", "echec donc aucune action dans sur l'application");
+        }else{ // Si message retour est "echec" c'est que l'échange de message n'a pas fonctionné
+            Log.d("Message retour", "echec donc aucune action sur l'application");
         }
     }
 
+    /**
+     * Methode run : permet la connexion de la socket et l'échange de message
+     * @param numEtu numero de l'etudiant
+     * @param numID numero d'identification du telephone
+     * @return message retour reçu envoyé par le serveur
+     */
     public String run(int numEtu, String numID) {
 
         try {
-            // Connect to the remote device through the socket. This call blocks
-            // until it succeeds or throws an exception.
+            // Connexion de l'appareil grace à la socket
             mmSocket.connect();
             Log.d(TAG,"connecté");
         } catch (IOException connectException) {
-            // Unable to connect; close the socket and return.
+            // Connexion à la socket impossible, on ferme la socket
             Log.e(TAG,  "échec de connexion", connectException);
             try {
                 mmSocket.close();
                 Log.d(TAG,"socket fermée");
             } catch (IOException closeException) {
-                Log.e(TAG, "Impossible de fermer la socket", closeException);
+                Log.e(TAG, "impossible de fermer la socket", closeException);
             }
-            Log.d("MessageR", "echec");
+            //Si la connexion n'a pas fonctionnée on retourne le message "echec"
+            Log.d("MessageRetour:", "echec");
             return ("echec");
-
         }
 
-        // The connection attempt succeeded. Perform work associated with
-        // the connection in a separate thread.
+        // La connexion a fonctionné, on peut échanger des messages
         Log.d(TAG,"envoi message");
+
+        //Création d'un thread dans la socket pour envoi et réception de message
         ConnectedThread connexionEnvoi = new ConnectedThread(mmSocket);
 
+        //Ecriture du message et conversion en byte (format d'envoi des messages par bluetooth)
         String inputString = Integer.toString(numEtu)+";"+numID;
-        Log.d("Message", inputString);
         byte[] byteArray = inputString.getBytes();
-
+        Log.d("Message envoyé", inputString);
+        // Envoi du message en byte
         connexionEnvoi.write(byteArray);
+
+        //Réception du message réponse envoyé par le serveur
         String messageRetour = connexionEnvoi.reception();
-        Log.d("messageRetour retourner", messageRetour);
+        Log.d("Message reçu", messageRetour);
+
+        //Fermeture de la socket
         connexionEnvoi.cancel();
 
+        // On retourne le message reçu
         return messageRetour;
     }
 
+    /**
+     * Classe ConnectedThread : classe privée permettant la création d'un thread sur la socket
+     */
     private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
-        private byte[] mmBuffer; // mmBuffer store for the stream
-        //private Handler handler; // handler that gets info from Bluetooth service
-        //private Message readMsg;
+        private final BluetoothSocket mmSocket; // socket
+        private final InputStream mmInStream; // flux de message reçu
+        private final OutputStream mmOutStream; // flux de message envoyé
+        private byte[] mmBuffer; // mmBuffer stocke les données du flux
 
+        /**
+         * Constructeur de la classe ConnectedThread : création d'un thread
+         * @param socket //socket
+         */
         public ConnectedThread(BluetoothSocket socket) {
-            mmSocket = socket;
+            mmSocket = socket; //socket
+
+            //Utilisation d'objet temporaire avant assignation sur mmInStream et mmOutStream
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            // Get the input and output streams; using temp objects because
-            // member streams are final.
+            // Récupération des fluxs entrant et sortant (InputStream, OutputStream)
             try {
                 tmpIn = socket.getInputStream();
                 Log.d(TAG, "Input stream OK");
@@ -129,21 +166,26 @@ public class Connexion extends Thread{
                 Log.e(TAG, "Error occurred when creating output stream", e);
             }
 
+            //Assignation des fluxs
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
 
+        /**
+         * Method reception : permet la reception d'un message
+         * @return retourne le message reçu
+         */
         public String reception() {
             String result = null;
-            mmBuffer = new byte[1024];
-            int numBytes; // bytes returned from read()
+            mmBuffer = new byte[1024]; //format des bytes dans le buffer
+            int numBytes; // bytes retournés à la lecture du message
 
-            // Keep listening to the InputStream until an exception occurs.
+            // Ecoute constante de l'input stream jusqu'à ce qu'on recoive un message ou qu'une exception se produise
             while (true) {
                 try {
-                    // Read from the InputStream.
+                    // Lecture du flux entrant
                     numBytes = mmInStream.read(mmBuffer);
-                    Log.d("Message retour", String.valueOf(numBytes));
+                    //Conversion du message reçu (de bytes en string)
                     result = new String(mmBuffer, StandardCharsets.UTF_8);
                     Log.d("Message retour", result);
                     break;
