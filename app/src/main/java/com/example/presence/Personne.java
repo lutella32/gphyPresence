@@ -21,6 +21,7 @@ public class Personne implements Parcelable {
         idEtudiant=0;
         nomPrenom = "";
         connexion = new ArrayList<String>();
+        connexion.add("null");
 
     }
     // code généré automatiquement par android studio
