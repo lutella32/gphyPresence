@@ -41,6 +41,7 @@ public class Connexion extends Thread{
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
+
         // on assigne la socket à la variable mmSocket
         mmSocket = tmp;
         Log.d(TAG,"création socket OK");

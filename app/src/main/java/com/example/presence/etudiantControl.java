@@ -1,5 +1,5 @@
 package com.example.presence;
-
+//imports
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,68 +25,71 @@ import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
 
+/**
+ * classe etudiantControl : classe liée à l'activité activity_etudiant_control
+ * qui est la page de connexions, où l'étudiant peut valider sa présence du jour
+ * et visualiser l'historique de ses 10 ernières connexions
+ */
 public class etudiantControl extends AppCompatActivity {
-    // seconde page, où on voit ses connexions
-    Personne personne;
-    private Set<BluetoothDevice> devices;
+    Personne personne; // objet personne contenant les informations de l'étudiant
+    private Set<BluetoothDevice> devices; // liste des appareils bluetooth captés aux alentours
     private IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-    //Rachel
-    //private String adresseMAC = "E4:70:B8:09:DF:ED";
-    //Moi
-    //private String adresseMAC = "E0:F8:47:12:A8:5F";
-    //Lucie
-    //private String adresseMAC = "E4:5E:37:3A:C3:B0";
-    //Adaptateur
-    private String adresseMAC = "04:42:1A:3F:5C:27";
+    private String adresseMAC = "04:42:1A:3F:5C:27"; // adresse MAC bluetooth de l'adaptateur bluetooth lié au serveur
+    private String TAG = "classe etudiantControl";
 
-
+    /**
+     * method onCreate qui est lancée à la création de l'activité
+     * @param savedInstanceState // pour le bon fonctionnement de l'activité
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // on charge page et personne transmis par processIntentData
         super.onCreate(savedInstanceState);
-        personne = new Personne();
-        processIntentData();
-        setContentView(R.layout.activity_etudiant_control);
 
-        // on ouvre fichier
+        personne = new Personne(); // Création d'une nouvelle personne
+        processIntentData(); // Chargement des infos de personne depuis l'activité précédente
+        setContentView(R.layout.activity_etudiant_control); // affichage de l'activité
+
+        // Ouverture du fichier permettant la sauvegarde des 10 dernières connexions de l'étudiant
         File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
         if (!file.exists()) {
-            createConnexionFile(personne,file);
+            createConnexionFile(personne,file); // si le dossier n'existe pas, on le crée
         }else {
-            // sinon on charge info
-            personne = getConnexionFile(personne);
+            personne = getConnexionFile(personne); // sinon on charge les informations de personne stockées dans le ficheir
         }
-        /*personne.addConnexion("2022-02-02 08:49:19");
-        personne.addConnexion("2022-02-02 08:49:26");
-        personne.addConnexion("2022-02-02 08:49:33");*/
+
         // Affichage des 10 dernières connexions
         afficheConnexion();
-        saveInformationFile(personne);
-        saveConnexionFile(personne);
+
+        // Sauvegarde des données de personne dans les fichiers
+        saveInformationFile(personne); // sauvegarde des données de l'étudiant (numEtu, numId)
+        saveConnexionFile(personne); // sauvegarde des connexions de l'étudiant (historique des 10 dernières connexions)
     }
 
-    //bouton "valider ma présence" : lancement de la connexion bluetooth
+    /**
+     * Methode liée au bouton "Valider ma présence" : lance la connexion bluetooth et l'échange de message
+     * @param view bouton "Valider ma présence"
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void connexionBT(View view){
         //Vérification activation du bluetooth
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null)
         {
-            Log.d("bluetoothTest:","bluetoothAdapter null");
+            Log.d(TAG+" verif bluetooth","bluetoothAdapter null");
             Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
         }
         else
         {
             if (!bluetoothAdapter.isEnabled())
             {
-                Log.d("bluetoothTest:","bluetoothAdapter not enable");
+                Log.d(TAG+" verif bluetooth","bluetoothAdapter non disponible");
                 Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
                 bluetoothAdapter.enable();
             }
             else
             {
-                Log.d("bluetoothTest:","bluetoothAdapter déjà enable");
+                Log.d(TAG+" verif bluetooth","bluetoothAdapter disponible");
                 Toast.makeText(getApplicationContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
             }
         }
@@ -94,30 +97,32 @@ public class etudiantControl extends AppCompatActivity {
         //Recherche de l'adaptateur dans la liste des périphériques liés
         devices = bluetoothAdapter.getBondedDevices();
 
-        //Récupération de l'appareil auquel on veut se connecter
-//        try {
+        //Récupération de l'appareil : avec adresse MAC de l'adaptateur bluetooth
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(adresseMAC);
-//        }catch( e){
-//
-//        }
 
-        //Information de l'appareil
+        //Si on trouve le nom de l'appareil, il existe
         if (device.getName() != null){
+            //Affichage des logs des informations de l'apparareil
             Log.d("BluetoothConnect", device.getAddress());
             Log.d("BluetoothConnect", device.getName());
 
             //Connexion à l'appareil
             Connexion connexion = new Connexion(device, personne);
-            //personne.print();
             Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
+
+            //ré-affichage des connexions avec la nouvelle connexion
             afficheConnexion();
 
         }else{
+            // Sinon, on n'a pas trouvé le serveur donc la connexion est impossible
             Log.d("BluetoothConnect", "echec de connexion : serveur introuvable");
             Toast.makeText(getApplicationContext(), "Connexion impossible", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Methode d'affichage des connexions sur l'ativité
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void afficheConnexion(){
 
@@ -152,9 +157,13 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >= 1){
+            TextView text9 = (TextView) findViewById(R.id.txtDate0);
             if (personne.getConnexion().get(tailleListe-1) != null) {
-                TextView text9 = (TextView) findViewById(R.id.txtDate0);
                 text9.setText(personne.getConnexion().get(tailleListe-1));
+            } else if (personne.getConnexion().get(tailleListe-1).equals("null")) {
+                text9.setText("");
+            } else {
+                text9.setText("");
             }
         } else {
             TextView text9 = (TextView) findViewById(R.id.txtDate0);
@@ -162,7 +171,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=2) {
-            if (personne.getConnexion().get(tailleListe-2) != null) {
+            if (personne.getConnexion().get(tailleListe-2) != null&& personne.getConnexion().get(tailleListe-2) != "null") {
                 TextView text8 = (TextView) findViewById(R.id.txtDate1);
                 text8.setText(personne.getConnexion().get(tailleListe-2).toString());
             }
@@ -172,7 +181,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=3) {
-            if (personne.getConnexion().get(tailleListe-3) != null) {
+            if (personne.getConnexion().get(tailleListe-3) != null&& personne.getConnexion().get(tailleListe-3) != "null") {
                 TextView text7 = (TextView) findViewById(R.id.txtDate2);
                 text7.setText(personne.getConnexion().get(tailleListe-3));
             }
@@ -182,7 +191,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=4) {
-            if (personne.getConnexion().get(tailleListe-4) != null) {
+            if (personne.getConnexion().get(tailleListe-4) != null&& personne.getConnexion().get(tailleListe-3) != "null") {
                 TextView text6 = (TextView) findViewById(R.id.txtDate3);
                 text6.setText(personne.getConnexion().get(tailleListe-4));
             }
@@ -192,7 +201,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=5) {
-            if (personne.getConnexion().get(tailleListe-5) != null) {
+            if (personne.getConnexion().get(tailleListe-5) != null && personne.getConnexion().get(tailleListe-5) != "null") {
                 TextView text5 = (TextView) findViewById(R.id.txtDate4);
                 text5.setText(personne.getConnexion().get(tailleListe-5));
             }
@@ -202,7 +211,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=6) {
-            if (personne.getConnexion().get(tailleListe-6) != null) {
+            if (personne.getConnexion().get(tailleListe-6) != null && personne.getConnexion().get(tailleListe-6) != "null") {
                 TextView text4 = (TextView) findViewById(R.id.txtDate5);
                 text4.setText(personne.getConnexion().get(tailleListe-6));
             }
@@ -212,7 +221,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=7) {
-            if (personne.getConnexion().get(tailleListe-7) != null) {
+            if (personne.getConnexion().get(tailleListe-7) != null && personne.getConnexion().get(tailleListe-7) != "null") {
                 TextView text3 = (TextView) findViewById(R.id.txtDate6);
                 text3.setText(personne.getConnexion().get(tailleListe-7));
             }
@@ -222,7 +231,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=8) {
-            if (personne.getConnexion().get(tailleListe-8) != null) {
+            if (personne.getConnexion().get(tailleListe-8) != null && personne.getConnexion().get(tailleListe-8) != "null") {
                 TextView text2 = (TextView) findViewById(R.id.txtDate7);
                 text2.setText(personne.getConnexion().get(tailleListe-8));
             }
@@ -232,7 +241,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=9) {
-            if (personne.getConnexion().get(tailleListe-9) != null) {
+            if (personne.getConnexion().get(tailleListe-9) != null && personne.getConnexion().get(tailleListe-9) != "null") {
                 TextView text1 = (TextView) findViewById(R.id.txtDate8);
                 text1.setText(personne.getConnexion().get(tailleListe-9));
             }
@@ -242,7 +251,7 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=10) {
-            if (personne.getConnexion().get(tailleListe-10) != null) {
+            if (personne.getConnexion().get(tailleListe-10) != null && personne.getConnexion().get(tailleListe-10) != "null") {
                 TextView text0 = (TextView) findViewById(R.id.txtDate9);
                 text0.setText(personne.getConnexion().get(tailleListe-10));
             }
