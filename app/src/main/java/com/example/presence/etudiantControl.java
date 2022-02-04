@@ -129,7 +129,7 @@ public class etudiantControl extends AppCompatActivity {
         Switch switch1 = (Switch) findViewById(R.id.switch1);
         int tailleListe = personne.getConnexion().size();
         if (personne.getConnexion().size() > 0) {
-            if (!personne.getConnexion().get(0).equals("null")) {
+            if (!personne.getConnexion().get(tailleListe-1).equals("null")) {
                 String dateDerniereCo = personne.getConnexion().get(tailleListe - 1).replace(" ", "T");
                 Log.d("Test date", dateDerniereCo);
                 LocalDateTime dateTime = LocalDateTime.parse(dateDerniereCo);
@@ -158,10 +158,8 @@ public class etudiantControl extends AppCompatActivity {
 
         if (tailleListe >= 1){
             TextView text9 = (TextView) findViewById(R.id.txtDate0);
-            if (personne.getConnexion().get(tailleListe-1) != null) {
+            if (personne.getConnexion().get(tailleListe-1) != null && !personne.getConnexion().get(tailleListe-1).equals("null")) {
                 text9.setText(personne.getConnexion().get(tailleListe-1));
-            } else if (personne.getConnexion().get(tailleListe-1).equals("null")) {
-                text9.setText("");
             } else {
                 text9.setText("");
             }
@@ -171,9 +169,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=2) {
-            if (personne.getConnexion().get(tailleListe-2) != null&& personne.getConnexion().get(tailleListe-2) != "null") {
-                TextView text8 = (TextView) findViewById(R.id.txtDate1);
-                text8.setText(personne.getConnexion().get(tailleListe-2).toString());
+            TextView text8 = (TextView) findViewById(R.id.txtDate1);
+            if (personne.getConnexion().get(tailleListe-2) != null && !personne.getConnexion().get(tailleListe-2).equals("null")) {
+                text8.setText(personne.getConnexion().get(tailleListe-2));
+            } else {
+                text8.setText(" ");
             }
         } else {
             TextView text8 = (TextView) findViewById(R.id.txtDate1);
@@ -181,9 +181,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=3) {
-            if (personne.getConnexion().get(tailleListe-3) != null&& personne.getConnexion().get(tailleListe-3) != "null") {
-                TextView text7 = (TextView) findViewById(R.id.txtDate2);
+            TextView text7 = (TextView) findViewById(R.id.txtDate2);
+            if (personne.getConnexion().get(tailleListe-3) != null && !personne.getConnexion().get(tailleListe-3).equals("null")) {
                 text7.setText(personne.getConnexion().get(tailleListe-3));
+            } else {
+                text7.setText(" ");
             }
         } else {
             TextView text7 = (TextView) findViewById(R.id.txtDate2);
@@ -191,9 +193,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=4) {
-            if (personne.getConnexion().get(tailleListe-4) != null&& personne.getConnexion().get(tailleListe-3) != "null") {
-                TextView text6 = (TextView) findViewById(R.id.txtDate3);
+            TextView text6 = (TextView) findViewById(R.id.txtDate3);
+            if (personne.getConnexion().get(tailleListe-4) != null && !personne.getConnexion().get(tailleListe-4).equals("null")) {
                 text6.setText(personne.getConnexion().get(tailleListe-4));
+            } else {
+                text6.setText(" ");
             }
         } else {
             TextView text6 = (TextView) findViewById(R.id.txtDate3);
@@ -201,9 +205,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=5) {
-            if (personne.getConnexion().get(tailleListe-5) != null && personne.getConnexion().get(tailleListe-5) != "null") {
-                TextView text5 = (TextView) findViewById(R.id.txtDate4);
+            TextView text5 = (TextView) findViewById(R.id.txtDate4);
+            if (personne.getConnexion().get(tailleListe-5) != null && !personne.getConnexion().get(tailleListe-5).equals("null")) {
                 text5.setText(personne.getConnexion().get(tailleListe-5));
+            } else {
+                text5.setText(" ");
             }
         } else {
             TextView text5 = (TextView) findViewById(R.id.txtDate4);
@@ -211,9 +217,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=6) {
-            if (personne.getConnexion().get(tailleListe-6) != null && personne.getConnexion().get(tailleListe-6) != "null") {
-                TextView text4 = (TextView) findViewById(R.id.txtDate5);
+            TextView text4 = (TextView) findViewById(R.id.txtDate5);
+            if (personne.getConnexion().get(tailleListe-6) != null && !personne.getConnexion().get(tailleListe-6).equals("null")) {
                 text4.setText(personne.getConnexion().get(tailleListe-6));
+            } else {
+                text4.setText(" ");
             }
         } else {
             TextView text4 = (TextView) findViewById(R.id.txtDate5);
@@ -221,9 +229,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=7) {
-            if (personne.getConnexion().get(tailleListe-7) != null && personne.getConnexion().get(tailleListe-7) != "null") {
-                TextView text3 = (TextView) findViewById(R.id.txtDate6);
+            TextView text3 = (TextView) findViewById(R.id.txtDate6);
+            if (personne.getConnexion().get(tailleListe-7) != null && !personne.getConnexion().get(tailleListe-7).equals("null")) {
                 text3.setText(personne.getConnexion().get(tailleListe-7));
+            } else {
+                text3.setText(" ");
             }
         } else {
             TextView text3 = (TextView) findViewById(R.id.txtDate6);
@@ -231,9 +241,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=8) {
-            if (personne.getConnexion().get(tailleListe-8) != null && personne.getConnexion().get(tailleListe-8) != "null") {
-                TextView text2 = (TextView) findViewById(R.id.txtDate7);
+            TextView text2 = (TextView) findViewById(R.id.txtDate7);
+            if (personne.getConnexion().get(tailleListe-8) != null && !personne.getConnexion().get(tailleListe-8).equals("null")) {
                 text2.setText(personne.getConnexion().get(tailleListe-8));
+            } else {
+                text2.setText(" ");
             }
         } else {
             TextView text2 = (TextView) findViewById(R.id.txtDate7);
@@ -241,9 +253,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=9) {
-            if (personne.getConnexion().get(tailleListe-9) != null && personne.getConnexion().get(tailleListe-9) != "null") {
-                TextView text1 = (TextView) findViewById(R.id.txtDate8);
+            TextView text1 = (TextView) findViewById(R.id.txtDate8);
+            if (personne.getConnexion().get(tailleListe-9) != null && !personne.getConnexion().get(tailleListe-9).equals("null")) {
                 text1.setText(personne.getConnexion().get(tailleListe-9));
+            } else {
+                text1.setText(" ");
             }
         } else {
             TextView text1 = (TextView) findViewById(R.id.txtDate8);
@@ -251,9 +265,11 @@ public class etudiantControl extends AppCompatActivity {
         }
 
         if (tailleListe >=10) {
-            if (personne.getConnexion().get(tailleListe-10) != null && personne.getConnexion().get(tailleListe-10) != "null") {
-                TextView text0 = (TextView) findViewById(R.id.txtDate9);
+            TextView text0 = (TextView) findViewById(R.id.txtDate9);
+            if (personne.getConnexion().get(tailleListe-10) != null && !personne.getConnexion().get(tailleListe-10).equals("null")) {
                 text0.setText(personne.getConnexion().get(tailleListe-10));
+            } else {
+                text0.setText(" ");
             }
         } else {
             TextView text0 = (TextView) findViewById(R.id.txtDate9);
