@@ -106,7 +106,7 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("BluetoothConnect", device.getAddress());
             Log.d("BluetoothConnect", device.getName());
 
-            //Connexion à l'appareil
+            //Connexion à l'appareil (création d'une nouvelle connexion)
             Connexion connexion = new Connexion(device, personne);
             Toast.makeText(getApplicationContext(), "Connexion établie", Toast.LENGTH_SHORT).show();
 
@@ -121,11 +121,12 @@ public class etudiantControl extends AppCompatActivity {
     }
 
     /**
-     * Methode d'affichage des connexions sur l'ativité
+     * Methode d'affichage des connexions sur l'activité
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void afficheConnexion(){
 
+        // Gestion du switch
         Switch switch1 = (Switch) findViewById(R.id.switch1);
         int tailleListe = personne.getConnexion().size();
         if (personne.getConnexion().size() > 0) {
