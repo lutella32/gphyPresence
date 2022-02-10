@@ -94,7 +94,6 @@ public class Personne implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idEtudiant);
-        //Todo
         parcel.writeString(idTel);
         parcel.writeStringList(connexion);
     }

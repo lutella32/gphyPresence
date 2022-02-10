@@ -278,26 +278,27 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    //Bouton exit
+    //Action du bouton "exit"
     public void finishing(View view) {
     try {
+        //Fonction appelée: Essai de recupérer la liste des 10 dernieres connexions de l'objet personne
+        //et insertion de la liste dans le fichier connexion.txt
         saveConnexionFile(personne);
-        Log.d("HEYHEYY","LES CONNEXIONS SONT SAUVEGARDEES DANS LE CONNEXION");
+        Log.d("Bonne Nouvelle:","LES CONNEXIONS SONT SAUVEGARDEES DANS LE CONNEXION");
     }catch (Exception e){
-        Log.d("ATTENTION ERREUR","LA SAUVEGARDE DU FICHIER FAILED");
+        Log.d("ATTENTION ERREUR:","LA SAUVEGARDE DU FICHIER FAILED");
     }
-
+    //fonction android qui permet d'arreter toutes les activité qui pourrais encore être en cours
     finishAffinity();
+    //fonction qui permet de fermer le programme en notifiant au sys d'exploitation que c'est normal '0'
     System.exit(0);
-   // à faire
-    // stocké les nouvelles données de connexion dans le fichier avant de exit
     }
 
     public void createConnexionFile(Personne p, File file){
-        // si le dossier existe pas on le créer
+        // Creation du dossier file entrer en paramètre
         file.mkdir();
         try {
-            // on créer fichier
+            // on créer le fichier
             File gpxfile = new File(file, "Connexion");
             Log.d("gpxfile2", gpxfile.getAbsolutePath());
             Log.d("--*------*-----*-----","----*------------*----------*");
@@ -308,29 +309,33 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    // on récupère info du fichier
+    // Fonction qui récupère les infos du fichier connexion.txt (les 10 derniers checks)
     public Personne getConnexionFile(Personne p){
-        // on récup le fichier avec l'emplacement
+        // on récupère le fichier avec l'emplacement
         File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
         Log.d("gpxfile2", fileEvents.getAbsolutePath());
+        //Creation d'un objet de type string
         StringBuilder text = new StringBuilder();
         try {
+            //creation d'un tampon de lecture pour le fichier connexion.txt
             BufferedReader br = new BufferedReader(new FileReader(fileEvents));
             String line;
-            // on lit chaque ligne pour récup info
+            // on lit chaque ligne du fichier pour récupérer les données tant que la ligne n'est pas vide
             while ((line = br.readLine()) != null) {
+                //ajout du texte de la ligne dans la variable line
                 text.append(line);
                 Log.d("--*---------*-------*-----","----*------------*----------*");
                 Log.d("ligne",line);
                 Log.d("--*---------*-------*-----","----*------------*----------*");
-                //text.append('\n');
             }
+            //Fermeture de l'objet tampon
             br.close();
         } catch (IOException e) {
             Log.d("--*---------*-------*-----","----*------------*----------*");
             Log.d("problème de récupération de données","erreur");
             Log.d("--*---------*-------*-----","----*------------*----------*");
         }
+        //affectation du contenu du tampn text à la variable String result
         String result = text.toString();
         Log.d("--*---------*-------*-----","----*------------*----------*");
         Log.d("Ce qu'il y a dans connexion.txt:",result);
@@ -338,26 +343,38 @@ public class etudiantControl extends AppCompatActivity {
 
         try {
             Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
+            // initialisation de nConnexion à vide
             String nConnexion = "";
             ;
+            //parcours tout le string "result" extrait du fichier caractère par caractère
             for (int i = 0; i< result.length(); i++) {
+                //creation d'une variable de type char qui va prendre pour chaque tour le char i
                 char Xchar = result.charAt(i);
+                //si le caractère est une virgule
                 if (Xchar == ',') {
+                    //alors on ajoute le string nConnexion à la liste personne.connexion[]
+                    //qui contient alors tous les caractères d'une connexion
                     personne.addConnexion(nConnexion);
                     Log.d("Le nConnexion:", nConnexion);
+                    //On réinitialise la var nConnexion à null pour qu'elle puisse accueillir la suivante
                     nConnexion = "";
+                    // on passe l'indice i au suivant pour parcourir tout le string
                     i=i+1;
                 }
+                //Si le caractere est un crochet gauche
                 else if (Xchar == '[') {
+                    //alors on fait rien car c'est le début du string
                     Log.d("Début de la liste [", "...");
                 }
+                //Si le caractere est un crochet droit
                 else if (Xchar == ']') {
                     Log.d("Fin de la liste ]", "...");
+                    //alors on ajout nConnexion à la liste personne.connexion[]
                     personne.addConnexion(nConnexion);
                     Log.d("Le nConnexion:", nConnexion);
-               // }else if (Xchar == ' ') {
-                //    nConnexion = nConnexion + '_';
+                // Sinon le caractere est ni , ni [ ni ] alors
                 } else {
+                // le caractère i est ajouté a la suite du string nConnexion
                     nConnexion = nConnexion + Xchar;
                 }
             }
@@ -368,26 +385,34 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("Probleme :", "pas de set personne.connexion");
             Log.d("-*-**-**-**-**-**", "**-**-**-**-**-**-");
         }
+        //on retourne personne
         return p;
     }
 
+    // Fonction qui sauvegarde les données de la liste personne.connexion[] dans un fichier
     public void saveConnexionFile(Personne p){
-
+        //creation du dossier
         File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
 
         try {
+            //creation du fichier connexion
             File gpxfile = new File(file, "Connexion");
             Log.d("gpxfile2", gpxfile.getAbsolutePath());
+            //Insertion du fichier connexion dans le dossier DossierCheck
             FileWriter writer = new FileWriter(gpxfile);
+            //création d'une var String qui prend la valeur de la liste connexion de personne
             String textInsert = String.valueOf(p.getConnexion());
+            //écriture de la variable textInsert dans le fichier connexion.txt
             writer.append(textInsert);
             Log.d("C'est la liste des connexion recup de pers:", textInsert);
+            // élimination des résidus restant de l'activité d'écriture
             writer.flush();
+            //arret de l'écriture fermeture de l'action
             writer.close();
             Log.d("--*---------*-------*-----","----*------------*----------*");
             Log.d("Connexions sauvegardées","ok");
-
             Log.d("--*---------*-------*-----","----*------------*----------*");
+            // génération d'un toast connexion sauvegardée sur l'application pour l'utilisateur
             Toast.makeText(etudiantControl.this, "Connexion sauvegardée", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.d("--*---------*-------*-----","----*------------*----------*");
@@ -396,12 +421,17 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    // code pour récupérer les données de personne depuis  la page main
+    // fonction qui récupère les données de personne depuis  la page MainActivity
     private void processIntentData(){
+        //récupération des données de l'activité précédente
         Intent intent = getIntent();
+        //Si on récupère des infos
         if(intent!=null){
+            //alors je récupère les ancienne données de personne
             Personne transferredPerson = intent.getParcelableExtra("FromNumToStarting");
+            //et si j'ai bien récupéré des données
             if (transferredPerson!=null){
+                //alors je remet ce donnée dans mon objet personne de cette activité
                 this.personne = transferredPerson;
                 this.personne.print();
                 Log.d("1", "Personne ok");
@@ -414,27 +444,35 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("3", "Error when transferring from main");
         }
     }
-    // script pour sauver information personne
-    //TODO rajouter condition "première connexion etudiant on sauvegarde
 
+    //fonction qui sauvegarde l'id unique du telephone et le numéro étudiant dans un fichier
     public void saveInformationFile(Personne p){
-
+        //creation du dossier
         File file = new File(etudiantControl.this.getFilesDir(), "text");
 
         try {
+            //creation du fichier sample
             File gpxfile = new File(file, "sample");
             Log.d("gpxfile", gpxfile.getAbsolutePath());
+            //creation d'un outil d'écriture du fichier sample
             FileWriter writer = new FileWriter(gpxfile);
+            //on créer une variable b qui récupère l'id tel
             String b= p.getIdTel();
+            //on créer une variable Id qui récupère l'id étudiant
             String Id = String.valueOf(p.getIdEtudiant());
+            //Dans le fichier sample on écrit d'abord le l'id tel
             writer.append(b);
             Log.d("b c'est l'idtel:", b);
             Log.d("p.idtel c'est l'idtel:", p.getIdTel());
+            //Dans le fichier sample on écrit a la suite une ","
             writer.append(",");
+            //Dans le fichier sample on écrit l'id etudiant
             writer.append(Id);
             Log.d("Id c'est l'idetu:", Id);
 
+            //On vide l'outil d'écriture
             writer.flush();
+            // On ferme l'activité d'écriture
             writer.close();
             Log.d("--*---------*-------*-----","----*------------*----------*");
             Log.d("information sauvegardées","ok");
