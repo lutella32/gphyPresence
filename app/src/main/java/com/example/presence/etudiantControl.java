@@ -127,47 +127,67 @@ public class etudiantControl extends AppCompatActivity {
     public void afficheConnexion(){
 
         // Gestion du switch
-        Switch switch1 = (Switch) findViewById(R.id.switch1);
-        int tailleListe = personne.getConnexion().size();
+        Switch switch1 = (Switch) findViewById(R.id.switch1); // switch qui passe au vert si l'étudiant s'est connecté dans la demi-journée
+        int tailleListe = personne.getConnexion().size(); // taille de la liste des connexions
+
+        // Si la liste n'est pas vide, on regarde la dernière connexion
         if (personne.getConnexion().size() > 0) {
+            //Si la dernière connexion n'est pas égale à "null"
             if (!personne.getConnexion().get(tailleListe-1).equals("null")) {
+                // On remplace l'espace de la date par un 'T' pour pouvoir la convertir en LocalDateTime
                 String dateDerniereCo = personne.getConnexion().get(tailleListe - 1).replace(" ", "T");
                 Log.d("Test date", dateDerniereCo);
-                LocalDateTime dateTime = LocalDateTime.parse(dateDerniereCo);
-                LocalDateTime now = LocalDateTime.now();
-                LocalDateTime nowMorning1 = LocalDateTime.now().withHour(8).withMinute(0).withSecond(0);
-                LocalDateTime nowMorning2 = LocalDateTime.now().withHour(12).withMinute(30).withSecond(0);
-                LocalDateTime nowAfternoon1 = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0);
-                LocalDateTime nowAfternoon2 = LocalDateTime.now().withHour(19).withMinute(00).withSecond(0);
+                LocalDateTime dateTime = LocalDateTime.parse(dateDerniereCo); // conversion de la date en LocalDateTime
+                LocalDateTime now = LocalDateTime.now(); // date du moment
+                LocalDateTime nowMorning1 = LocalDateTime.now().withHour(8).withMinute(0).withSecond(0); // date limite de check le matin
+                LocalDateTime nowMorning2 = LocalDateTime.now().withHour(12).withMinute(30).withSecond(0); // date limite de check le matin
+                LocalDateTime nowAfternoon1 = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0); // date limite de check l'après-midi
+                LocalDateTime nowAfternoon2 = LocalDateTime.now().withHour(19).withMinute(00).withSecond(0); // date limite de check l'après-midi
 
+                // On regarde si on est le matin ou l'après midi
                 boolean matin = now.isBefore(nowMorning2);
                 boolean apresM = now.isAfter(nowAfternoon1);
 
+                // Si c'est le matin
                 if (matin) {
+                    // Si la dernière signature est comprise dans les horaires de la matinée
                     if (dateTime.isAfter(nowMorning1) && dateTime.isBefore(nowMorning2)) {
+                        // On passe le switch en vert
                         switch1.setChecked(true);
                     }
+                // Si c'est l'après-midi
                 } else if (apresM) {
+                    // Si la dernière signature est comprise dans les horaires de l'après-midi
                     if (dateTime.isAfter(nowAfternoon1) && dateTime.isBefore(nowAfternoon2)) {
+                        // On passe le switch en vert
                         switch1.setChecked(true);
                     }
                 } else {
+                    // Sinon il reste gris
                     switch1.setChecked(false);
                 }
             }
         }
 
+        // Affichage des 10 dernières connexions
+        // Si la taille de la liste est supérieur ou égale à 1
         if (tailleListe >= 1){
-            TextView text9 = (TextView) findViewById(R.id.txtDate0);
+            TextView text9 = (TextView) findViewById(R.id.txtDate0); // déclaration du text view
+            // si la connexion est différente de null
             if (personne.getConnexion().get(tailleListe-1) != null && !personne.getConnexion().get(tailleListe-1).equals("null")) {
+                // on l'affiche dans le textView
                 text9.setText(personne.getConnexion().get(tailleListe-1));
             } else {
+                // Sinon le textView est vide
                 text9.setText("");
             }
         } else {
+            // Sinon le textView est vide
             TextView text9 = (TextView) findViewById(R.id.txtDate0);
             text9.setText("");
         }
+
+        // Même chose pour les 10 connexions suivantes
 
         if (tailleListe >=2) {
             TextView text8 = (TextView) findViewById(R.id.txtDate1);
