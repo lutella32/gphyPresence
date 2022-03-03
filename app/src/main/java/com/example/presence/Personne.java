@@ -8,15 +8,21 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Classe personne (correspond à un étudiant)
+ */
 public class Personne implements Parcelable {
-    // Personne possède un idEtudiant, un idBluetooth et une liste de connexion en String
-    private int idEtudiant;
-    private String nomPrenom;
-    private String idTel;
-    private ArrayList<String> connexion;
+    // Personne possède un idEtudiant,un nom/prénom, un idTel et une liste de connexion en String
+    private int idEtudiant; // numéro etudiant
+    private String nomPrenom; // nom et prénom de l'étudiant
+    private String idTel; // identifiant du téléphone
+    private ArrayList<String> connexion; // liste des 10 dernières connexions de l'étudiant
 
-    // les valeurs à la création de personne sont 0,0," "
+    /**
+     * Constructeur de personne
+     */
     public Personne(){
+        // initialisation des valeurs par défaut
         idTel ="0";
         idEtudiant=0;
         nomPrenom = "";
@@ -31,8 +37,10 @@ public class Personne implements Parcelable {
         connexion = in.createStringArrayList();
     }
 
-
-    // surchage de la méthode toStrong avec les getter
+    /**
+     * surchage de la méthode toStrong avec les getter
+     * @return string des informations de la personne
+     */
     public String toString(){
         StringBuilder sBuilder = new StringBuilder("\t Numéros Etudiant: " + this.getIdEtudiant() + "\n");
         sBuilder.append("\t Id tel: ").append(this.getIdTel()).append("\n");
@@ -41,41 +49,87 @@ public class Personne implements Parcelable {
 
         return sBuilder.toString();
     }
-    // surchage de la méthode print
+
+    /**
+     * surchage de la méthode print
+     */
     public void print(){
         System.out.println("Person's attributes: ");
         System.out.print(this);
         System.out.println();
     }
 
-    //Getter / Setter IdEtudiant
+    /**
+     * Getter idEtudiant
+     * @return idEtudiant
+     */
     public int getIdEtudiant() { return idEtudiant; }
+
+    /**
+     * Setter idEtudiant
+     * @param num nouvel idEtudiant
+     */
     public void setIdEtudiant(int num) { this.idEtudiant = num; }
 
-    //Getter / Setter nom
+    /**
+     * Getter nomPrenom
+     * @return string contenant le nom et le prénom de la personne
+     */
     public String getNomPrenom() { return nomPrenom; }
+
+    /**
+     * Setter nomPrenom
+     * @param nom nouveau nomPrenom
+     */
     public void setNomPrenom(String nom) { this.nomPrenom = nom; }
 
-    //Getter / Setter IdBluetooth
+    /**
+     * Getter idTel
+     * @return idTel
+     */
     public String getIdTel() { return idTel; }
+
+    /**
+     * Setter idTel
+     * @param id nouveau idTel
+     */
     public void setIdTel(String id) { this.idTel = id; }
 
-    //Getter / Setter
+    /**
+     * Getter liste des connexions
+     * @return liste des connexions
+     */
     public ArrayList<String> getConnexion() { return connexion; }
+
+    /**
+     * Setter liste des connexions
+     * @param connexion nouvelle liste de connexions
+     */
     public void setConnexion(ArrayList<String> connexion) { this.connexion = connexion; }
 
+    /**
+     * Method d'ajout d'une connexion à la liste
+     * @param dateCo string de la date de la nouvelle connexion à ajoutée
+     */
     public void addConnexion(String dateCo){
+        //Si la connexion n'a pas été un echec
         if (dateCo != "echec") {
+            // Si le nombre de connexion est déjà égal à 10
             if (connexion.size() == 10) {
+                //On supprime la connexion la plus ancienne
                 this.connexion.remove(0);
+                // Puis on ajoute la nouvelle connexion à la liste
                 this.connexion.add(dateCo);
             } else {
+                // Sinon on ajoute directement la nouvelle connexion à la liste
                 this.connexion.add(dateCo);
             }
         }
     }
 
-    // code généré par android studio pour transmettre personne d'une page à l'autre
+    /**
+     * code généré par android studio pour transmettre personne d'une page à l'autre
+     */
     public static final Creator<Personne> CREATOR = new Creator<Personne>() {
         @Override
         public Personne createFromParcel(Parcel in) {
@@ -87,10 +141,18 @@ public class Personne implements Parcelable {
             return new Personne[size];
         }
     };
+
+    /**
+     * code généré par android studio pour transmettre personne d'une page à l'autre
+     */
     @Override
     public int describeContents() {
         return 0;
     }
+
+    /**
+     * code généré par android studio pour transmettre personne d'une page à l'autre
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(idEtudiant);
