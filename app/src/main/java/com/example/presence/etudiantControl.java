@@ -286,7 +286,11 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    //Action du bouton "exit"
+
+    /**
+     * Action du bouton "exit"
+     * @param view
+     */
     public void finishing(View view) {
     //fonction android qui permet d'arreter toutes les activité qui pourrais encore être en cours
     finishAffinity();
@@ -294,6 +298,11 @@ public class etudiantControl extends AppCompatActivity {
     System.exit(0);
     }
 
+    /**
+     *
+     * @param p
+     * @param file
+     */
     public void createConnexionFile(Personne p, File file){
         // Creation du dossier file entrer en paramètre
         file.mkdir();
@@ -309,7 +318,11 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    // Fonction qui récupère les infos du fichier connexion.txt (les 10 derniers checks)
+    /**
+     * Fonction qui récupère les infos du fichier connexion.txt (les 10 derniers checks)
+     * @param p
+     * @return
+     */
     public Personne getConnexionFile(Personne p){
         // on récupère le fichier avec l'emplacement
         File fileEvents = new File(etudiantControl.this.getFilesDir()+"/DossierCheck/Connexion");
@@ -389,7 +402,10 @@ public class etudiantControl extends AppCompatActivity {
         return p;
     }
 
-    // Fonction qui sauvegarde les données de la liste personne.connexion[] dans un fichier
+    /**
+     * Fonction qui sauvegarde les données de la liste personne.connexion[] dans un fichier
+     * @param p
+     */
     public void saveConnexionFile(Personne p){
         //creation du dossier
         File file = new File(etudiantControl.this.getFilesDir(), "DossierCheck");
@@ -421,7 +437,9 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    // fonction qui récupère les données de personne depuis  la page MainActivity
+    /**
+     * fonction qui récupère les données de personne depuis  la page MainActivity
+     */
     private void processIntentData(){
         //récupération des données de l'activité précédente
         Intent intent = getIntent();
@@ -445,7 +463,10 @@ public class etudiantControl extends AppCompatActivity {
         }
     }
 
-    //fonction qui sauvegarde l'id unique du telephone et le numéro étudiant dans un fichier
+    /**
+     * fonction qui sauvegarde l'id unique du telephone et le numéro étudiant dans un fichier
+     * @param p
+     */
     public void saveInformationFile(Personne p){
         //creation du dossier
         File file = new File(etudiantControl.this.getFilesDir(), "text");
