@@ -118,6 +118,14 @@ public class etudiantControl extends AppCompatActivity {
             Log.d("BluetoothConnect", "echec de connexion : serveur introuvable");
             Toast.makeText(getApplicationContext(), "Connexion impossible", Toast.LENGTH_SHORT).show();
         }
+        try {
+            //Fonction appelée: Essai de recupérer la liste des 10 dernieres connexions de l'objet personne
+            //et insertion de la liste dans le fichier connexion.txt
+            saveConnexionFile(personne);
+            Log.d("Bonne Nouvelle:","LES CONNEXIONS SONT SAUVEGARDEES DANS LE CONNEXION");
+        }catch (Exception e){
+            Log.d("ATTENTION ERREUR:","LA SAUVEGARDE DU FICHIER FAILED");
+        }
     }
 
     /**
@@ -280,14 +288,6 @@ public class etudiantControl extends AppCompatActivity {
 
     //Action du bouton "exit"
     public void finishing(View view) {
-    try {
-        //Fonction appelée: Essai de recupérer la liste des 10 dernieres connexions de l'objet personne
-        //et insertion de la liste dans le fichier connexion.txt
-        saveConnexionFile(personne);
-        Log.d("Bonne Nouvelle:","LES CONNEXIONS SONT SAUVEGARDEES DANS LE CONNEXION");
-    }catch (Exception e){
-        Log.d("ATTENTION ERREUR:","LA SAUVEGARDE DU FICHIER FAILED");
-    }
     //fonction android qui permet d'arreter toutes les activité qui pourrais encore être en cours
     finishAffinity();
     //fonction qui permet de fermer le programme en notifiant au sys d'exploitation que c'est normal '0'
