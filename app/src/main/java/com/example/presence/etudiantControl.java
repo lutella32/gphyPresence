@@ -28,7 +28,7 @@ import java.io.FileWriter;
 /**
  * classe etudiantControl : classe liée à l'activité activity_etudiant_control
  * qui est la page de connexions, où l'étudiant peut valider sa présence du jour
- * et visualiser l'historique de ses 10 ernières connexions
+ * et visualiser l'historique de ses 10 dernières connexions
  */
 public class etudiantControl extends AppCompatActivity {
     Personne personne; // objet personne contenant les informations de l'étudiant
